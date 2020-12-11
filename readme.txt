@@ -6,3 +6,5 @@
 	Sản Phẩm Nộp Cho Giáo Viên Bao Gồm
 ▪ Source code
 ▪ BRD (Business requirement document)
+
+- Trưởng dự án: Huỳnh Quang Vinh - 3117410300
