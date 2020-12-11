@@ -1,0 +1,91 @@
+﻿
+@using Application.DTOs;
+
+@model WebApp_Cnpm.ViewModels.AddProductsModel
+
+<!-- popup sửa sp -->
+<div class="popup-themsp1" id="suasp">
+    <form asp-action="EditProduct" enctype="multipart/form-data">
+        <div class="popup-themsp__content" style="height:590px;">
+            <div class="popup-themsp__title">Edit Product</div>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Product Type</div>
+                <div class="popup-themsp-left__label">Name</div>
+                <div class="popup-themsp-left__label">Cost</div>
+                <div class="popup-themsp-left__label">Decription</div>
+                <div class="popup-themsp-left__label">Choose Image</div>
+                <div class="popup-themsp-left__label" style="margin-top:160px;">Size</div>
+            </div>
+            <div class="popup-themsp-right">
+                <select asp-for="@Model.EditKeys.productTypeIDEdit" style="margin-bottom:20px;">
+                    @{
+                        IEnumerable<ProductTypeDTO> productTypeDTOs = ViewData["productTypes"] as IEnumerable<ProductTypeDTO>;
+                        foreach (var item in productTypeDTOs)
+                        {
+                            <option value="@item.IDLSP">@item.Name</option>
+                        }
+                    }
+                </select>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.EditKeys.productIDEdit" hidden/>
+                    <input asp-for="@Model.EditKeys.nameEdit" />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.EditKeys.costEdit" />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <textarea asp-for="@Model.EditKeys.decriptionEdit"></textarea>
+                </div>
+                <div class="popup-themsp-left__input">
+                    <div id="imageNewProductEdit" style="border:1px solid black;width:150px;height:150px;"></div>
+                    <input asp-for="@Model.EditKeys.imageEdit" accept="image/*" onchange="chooseImageEdit();" />
+                </div>
+                <select asp-for="@Model.EditKeys.sizeEdit" style="margin-bottom:20px;margin-top:170px;">
+                    @{
+                        for (var i = 32; i < 46; i++)
+                        {
+                            <option value='@i'>@i</option>
+                        }
+                    }
+                </select>&ensp;&ensp; Sale
+                <select asp-for="@Model.EditKeys.saleIDEdit">
+                    @{
+                        var idSale = 1;
+                        for (var j = 0; j <= 90; j += 10)
+                        {
+                            <option value='@idSale'>@j%</option>
+                            idSale++;
+                        }
+                    }
+                </select>
+                <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="EditProduct();" />
+                <span onclick="back_popup_suasp();" class="back">x</span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    function chooseImageEdit() {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(document.getElementById('EditKeys_imageEdit').files[0]);
+        img.height = 150;
+        img.width = 150;
+        img.onload = function () {
+            URL.revokeObjectURL(this.src);
+        }
+        $('#imageNewProductEdit').html(img);
+    }
+
+    function EditProduct() {
+        var name = $("#EditKeys_nameEdit").val();
+        var cost = $("#EditKeys_costEdit").val();
+        var image = $("#EditKeys_imageEdit").val();
+        var amount = $("#EditKeys_amountEdit").val();
+
+        if (name == "" || cost == "" || amount == "") {
+            alert("Please enter enough infomation edit of product.");
+        }
+    }
+</script>

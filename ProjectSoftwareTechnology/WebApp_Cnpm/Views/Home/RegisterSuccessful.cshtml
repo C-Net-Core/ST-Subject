@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vatva Shop</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Register</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="height:138px;margin-top:50px;">
+    <h4 style="text-align: center;word-spacing:5px;">Register Successful</h4>
+    <div class="login_user">
+        <a asp-action="Login" style="color: blueviolet;">Go to login ></a>
+    </div>
+</div>
+
+@section Register{
+    <script type="text/javascript">
+
+        var body = $("html, body");
+        body.animate({ scrollTop: 683 });
+    </script>
+}
+

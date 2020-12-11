@@ -1,0 +1,150 @@
+﻿
+@model WebApp_Cnpm.ViewModels.ProductTypeViewModel
+
+@{
+    ViewData["Title"] = "ProductTypeManagement";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/qlsp.css">
+<link rel="stylesheet" href="~/admin/css/index.css">\
+<link rel="stylesheet" href="~/css/PaginatedList.css" />
+<style>
+    .header {
+        background-image: linear-gradient(to bottom right, purple, black);
+    }
+
+    .title-header,
+    .ten-admin {
+        color: white;
+    }
+</style>
+
+<div class="main">
+    <div class="section">
+        <div class="them-sp">
+            <h2 style="text-align:left;width:350px;display:inline-block;margin-right:450px;">PRODUCT TRADE MARK</h2>
+            <button onclick="popup_themloaisp();" class="nutthem">Add Trade Mark</button>
+        </div>
+
+        <partial name="_TableproductTypeManagement" />
+
+        @{
+            var prevDisabled = !Model.ProductTypes.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.ProductTypes.HasNextPage ? "disabled" : "";
+        }
+        <div class="bodyPaginated">
+            <a class="btn btn-default tranformPage"
+               asp-route-pageIndex="@(Model.ProductTypes.PageIndex -1)">Previous</a>
+            @{
+                var dem = 1;
+                for (int i = 1; i <= Model.ProductTypes.Count(); i += 3)
+                {
+                    <a class="btn btn-default tranformPage"
+                       asp-route-pageIndex="@dem">@dem</a>
+                    dem++;
+                }
+            }
+            <a class="btn btn-default tranformPage"
+               asp-route-pageIndex="@(Model.ProductTypes.PageIndex +1)">Next</a>
+            @{
+                if (Model.ProductTypes.PageIndex <= 1)
+                {
+                    <h6 class="showPage">On page 1</h6>
+                }
+                else
+                {
+                    if (Model.ProductTypes.PageIndex >= dem)
+                    {
+                        <h6 class="showPage">On page @dem</h6>
+                    }
+                    else
+                    {
+                        <h6 class="showPage">On page @Model.ProductTypes.PageIndex</h6>
+                    }
+                }
+            }
+        </div>
+    </div>
+
+
+    <partial name="_PopupAddBrand" />
+    <partial name="_PopupEditBrand" />
+
+</div>
+
+@section Brand{
+    <script>
+        function popup_themloaisp() {
+            if (confirm("Do you want add new brand.?")) {
+                $("#themloaisp").toggle();
+            }
+        }
+        function back_popup_themloaisp() {
+            $("#themloaisp").hide();
+        }
+
+        //================================================
+
+        function popup_sualoaisp(id) {
+            if (confirm("Do you want edit this brand.?")) {
+
+                $.ajax({
+                    url: "/Admin/LoadDataEditBrand",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "idsp": id
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (item) {
+                        var getValue = Object.values(item);
+                        document.getElementById("EditBrandKeys_ID").value = getValue[0];
+                        document.getElementById("EditBrandKeys_Name").value = getValue[1];
+
+                        $("#sualoaisp").toggle();
+                    },
+
+                    error: function () {
+                        alert("Edit failt.!!!");
+                    }
+                });
+            }
+        }
+        function back_popup_sualoaisp() {
+            $("#sualoaisp").hide();
+        }
+
+        // ===============================================
+
+        function xoaloaisp(id) {
+            if (confirm("Do you want delete this product.?")) {
+                $.ajax({
+                    url: "/Admin/DeleteBrand",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "idsp": id
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (value) {
+                        alert(value);
+                        location.reload();
+                    },
+
+                    error: function () {
+                        alert("Remove failt.!!!");
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+

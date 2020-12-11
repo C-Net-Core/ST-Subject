@@ -1,0 +1,125 @@
+﻿
+.TurnoverOfYear {
+}
+
+/* --------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------- */
+.TurnoverOfYear_Table {
+    border: 1px solid silver;
+    width: 400px;
+    height:592px;
+    border-radius: 10px;
+    float:left;
+    cursor:pointer;
+}
+
+.TurnoverOfYear_header {
+    font-size: 30px;
+    font-weight: 600;
+    padding: 3px;
+    letter-spacing: 1.5px;
+    color: forestgreen;
+}
+
+.TurnoverOfYear_header_title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 19px;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------- */
+.TurnoverOfYear_Describe {
+    width: 63%;
+    display: inline-block;
+    float: right;
+    height:365px;
+}
+.note {
+    background-color: rgba(245,255,235,0.2);
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid silver;
+}
+.note_title {
+    font-size: 25px;
+    font-weight: 500;
+    margin: 0 50px;
+    color: chocolate;
+    text-align: center;
+}
+.notmettargets{
+    border:1px solid silver;
+    width:25px;
+    height:25px;
+    text-align:center;
+    margin-left:10px;
+    margin-top:10px;
+    color:red;
+    display:inline-block;
+    background-color:white;
+    border-radius:5px;
+}
+.info_note {
+    width: 300px;
+    height: 25px;
+    display: inline-block;
+    margin-left: 25px;
+    font-weight: 500;
+    margin-top: 20px;
+    border: 1px solid silver;
+    padding: 3px;
+    text-align: center;
+    border-radius: 5px;
+}
+.note_detail {
+    width: 60%;
+    display:inline-block;
+}
+.filter_TurnoverOfYear{
+    width:35%;
+    float:right;
+    display:inline-block;
+    margin-top:50px;
+}
+#filter_TurnoverOfYear{
+    width:80px;
+    height:32px;
+    margin-left:10px;
+    font-size:17px;
+    border-radius:10px;
+    outline:none;
+    cursor:pointer;
+    border:1px solid silver;
+}
+
+/* ===================================================================== */
+
+.general{
+    height:63px;
+}
+.general_title {
+    width: 70%;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgba(211,211,211,0.2);
+    padding: 5px;
+    background-color: white;
+}
+.general_total {
+    width: 25%;
+    margin-top: 13px;
+    float: right;
+    display: inline-block;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 18px;
+}

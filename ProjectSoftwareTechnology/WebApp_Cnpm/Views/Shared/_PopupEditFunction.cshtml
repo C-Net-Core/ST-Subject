@@ -1,0 +1,63 @@
+﻿
+@using Application.DTOs;
+
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<div class="popup-themsp" id="suachucnang">
+    <div class="popup-themsp__content" style="height:200px;">
+        <div class="popup-themsp__title">Edit Function</div>
+        <div class="popup-themsp-left">
+            <div class="popup-themsp-left__label">Name Function</div>
+        </div>
+        <div class="popup-themsp-right">
+
+            <div class="popup-themsp-left__input">
+                <input asp-for="@Model.ID_Function" hidden />
+                <input asp-for="@Model.Name_Function_Edit" />
+            </div>
+            <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="EditFunction();" />
+            <span onclick="back_popup_suachucnang();" class="back">x</span>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function back_popup_suachucnang() {
+        $("#ID_Function").val("");
+        $("#Name_Function_Edit").val("");
+        $("#suachucnang").toggle();
+    }
+
+    function EditFunction() {
+        var id = $("#ID_Function").val();
+        var name = $("#Name_Function_Edit").val();
+
+        if (name == "") {
+            alert("Please enter enough infomation of this function.");
+        } else {
+            $.ajax({
+                url: "/Admin/EditFunction",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "ID_Function": id,
+                    "Name_Function_Edit": name
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (mess) {
+                    alert(mess);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Change position failt.!!!");
+                }
+            });
+        }
+    }
+
+</script>

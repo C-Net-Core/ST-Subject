@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_LayoutAccountManagement.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<div id="tab1" class="tab_inventory_show">
+    <h3>Customer Account List</h3>
+
+    <form action="/Admin/UserManagement" style="margin-left:20px;width:280px;display:inline-block;">
+        <input type="text" name="username" style="outline-style:none;" placeholder="Enter user you need find" />
+        <input type="submit" value="Search" />
+    </form>
+    <div style="width:250px;display:inline-block;">
+        Filter with Status&ensp;
+        <select class="custom-select-lg" id="filter_status" onchange="filterForStatus()">
+            <option value="notChoose">Not choose</option>
+            <option value="On">On</option>
+            <option value="Locked">Locked</option>
+        </select>
+    </div>
+    @{
+        if (Model.Accounts.Count() == 0)
+        {
+            <h1 style="text-align:center;color:red;">Not found</h1>
+            <h4 style="text-align:center"><a asp-action="UserManagement">Back</a></h4>
+        }
+        else
+        {
+            <table id="table-sp">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Username</th>
+                        <th>Password<span style="color:red;"> (not allow seen)</span></th>
+                        <th>Status</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Date active</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bodyTable">
+                    @foreach (var item in Model.Accounts)
+                    {
+                        <tr class="thunghiem" id="stt_@item.Status">
+                            <td>@item.ID</td>
+                            <td>@item.UID</td>
+                            <td>***************</td>
+                            @{
+                                if (item.Status == "On")
+                                {
+                                    <td style="color:lawngreen;font-weight:600;">@item.Status</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Status</td>
+                                }
+                            }
+                            <td>@item.Address</td>
+                            <td>@item.Email</td>
+                            <td>@item.DateActive</td>
+                            @{
+                                if (item.Status == "On")
+                                {
+                                    <td>
+                                        <button type="button" class="nhapkho" onclick="setStatusUser(@item.ID,'lock')">LOCK</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <button type="button" class="nhapkho" onclick="setStatusUser(@item.ID,'unlock')">UNLOCK</button>
+                                    </td>
+                                }
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="bodyPaginated" id="pagination">
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Accounts.PageIndex -1)">Previous</a>
+                @{
+                    var dem = 1;
+                    for (int i = 1; i <= Model.countUser; i += 3)
+                    {
+                        <a class="btn btn-default tranformPage"
+                           asp-route-pageIndex="@dem">@dem</a>
+                        dem++;
+                    }
+                }
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Accounts.PageIndex +1)">Next</a>
+                @{
+                    if (Model.Accounts.PageIndex <= 1)
+                    {
+                        <h6 class="showPage">On page 1</h6>
+                    }
+                    else
+                    {
+                        if (Model.Accounts.PageIndex >= dem)
+                        {
+                            <h6 class="showPage">On page @dem</h6>
+                        }
+                        else
+                        {
+                            <h6 class="showPage">On page @Model.Accounts.PageIndex</h6>
+                        }
+                    }
+                }
+            </div>
+        }
+    }
+
+
+</div>
+
+@section UserManagement{
+    <script>
+
+        function setStatusUser(id, status) {
+            if (confirm("Do you want lock this account")) {
+                $.ajax({
+                    url: "/Admin/LockUser",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "ID_User": id,
+                        "Status_User": status
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (message) {
+                        alert(message);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Lock failt.!!!");
+                    }
+                });
+            }
+        }
+
+        function filterForStatus() {
+            var status = $("#filter_status").val()
+            $.ajax({
+                url: "/Admin/filterForStatus",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "Status_User": status
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (status == "notChoose") {
+                        location.reload();
+                    } else {
+                        var convert = Object.values(data[0]);
+                        var stt = convert[3];
+                        if (stt == "On") {
+                            $("#stt_On").show();
+                            $("#stt_Locked").hide();
+                        } else {
+                            $("#stt_On").hide();
+                            $("#stt_Locked").show();
+                        }
+
+                        $("#pagination").html("");
+                    }
+                },
+                error: function () {
+                    alert("Filter failt.!!!");
+                }
+            });
+        }
+
+    </script>
+}
+

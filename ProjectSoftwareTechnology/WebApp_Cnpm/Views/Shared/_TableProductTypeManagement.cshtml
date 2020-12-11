@@ -1,0 +1,29 @@
+﻿
+@model WebApp_Cnpm.ViewModels.ProductTypeViewModel
+
+<table id="table-sp">
+    <thead>
+        <tr>
+            <th>NO</th>
+            <th>Brand</th>
+            <th>Amount product</th>
+            <th>Actions</th>
+        </tr>
+        @{
+            foreach (var item in Model.ProductTypes)
+            {
+                <tr class="thunghiem">
+                    <td>@item.IDLSP</td>
+                    <td><span class="hieuchinh1">@item.Name</span></td>
+                    <td>
+                        @Model.Products.Where(p=>p.IDLSP == item.IDLSP).Count()
+                    </td>
+                    <td>
+                        <button type="button" class="xoa_sp xoasp11" onclick="xoaloaisp(@item.IDLSP);">Delete</button>
+                        <button type="button" class="xoa_sp" onclick="popup_sualoaisp(@item.IDLSP);">Edit</button>
+                    </td>
+                </tr>
+            }
+        }
+    </thead>
+</table>

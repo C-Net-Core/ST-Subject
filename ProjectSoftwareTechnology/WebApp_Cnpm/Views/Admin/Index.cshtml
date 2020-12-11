@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/index.css">
+<style>
+    .header {
+        background-image: linear-gradient(to bottom right, purple, black);
+    }
+
+    .title-header,
+    .ten-admin {
+        color: white;
+    }
+</style>
+
+<div class="main" style="background-color:#CCFFFF;">
+    <div class="chart chart-bgred">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="ProductManagement">Products Management</a></div>
+        <div class="chart__num">@ViewBag.countProducts</div>
+        <div class="chart__img chart__img-img1"></div>
+    </div>
+    <div class="chart chart-bgblue">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="ProductTypeManagement">Product Type Management</a></div>
+        <div class="chart__num">@ViewBag.countProductTypes</div>
+        <div class="chart__img chart__img-img2"></div>
+    </div>
+    <div class="chart chart-bgbluewhite">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="TheFirstInventoryManagement">Inventory Management</a></div>
+        <div class="chart__num">@ViewBag.countInventories</div>
+        <div class="chart__img chart__img-img3"></div>
+    </div>
+    <div class="chart chart-bgblue">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="TheFirstStatus">Order Management</a></div>
+        <div class="chart__num">@ViewBag.countOrders</div>
+        <div class="chart__img chart__img-img2"></div>
+    </div>
+
+
+
+    <div class="chart chart-bgbluewhite">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="UserManagement">Account Management</a></div>
+        <div class="chart__num">@ViewBag.countAccounts</div>
+        <div class="chart__img chart__img-img3"></div>
+    </div>
+    <div class="chart chart-bgyellow">
+        <div class="chart__label"><a asp-controller="Admin" asp-action="Turnover">Statistical</a></div>
+        @{
+            int countRevenue = ViewBag.countRevenue;
+            <div class="chart__num__order">@countRevenue.ToString("#,##0").Replace(",", ".") VNĐ</div>
+        }
+        <div class="chart__img chart__img-img4"></div>
+    </div>
+</div>

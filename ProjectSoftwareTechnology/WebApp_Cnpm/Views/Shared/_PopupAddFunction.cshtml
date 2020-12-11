@@ -1,0 +1,64 @@
+﻿
+@using Application.DTOs;
+
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<div class="popup-themsp" id="themchucnang">
+    <div class="popup-themsp__content" style="height:200px;">
+        <div class="popup-themsp__title">Edit Function</div>
+        <div class="popup-themsp-left">
+            <div class="popup-themsp-left__label">Name Function</div>
+        </div>
+        <div class="popup-themsp-right">
+
+            <div class="popup-themsp-left__input">
+                <input asp-for="@Model.Name_Function" />
+            </div>
+            <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="AddFunction();" />
+            <span onclick="back_popup_themchucnang();" class="back">x</span>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    function back_popup_themchucnang() {
+        $("#Name_Function").val("");
+        $("#themchucnang").toggle();
+    }
+
+    function AddFunction() {
+        var name = $("#Name_Function").val();
+
+        if (name == "") {
+            alert("Please enter enough infomation of this brand.");
+        } else {
+            $.ajax({
+                url: "/Admin/AddFunction",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "Name_Function": name,
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (mess) {
+                    if (mess == "existed") {
+                        alert("Function have been existed");
+                    } else {
+                        alert(mess);
+                    }
+                    
+                    location.reload();
+                },
+                error: function () {
+                    alert("Change position failt.!!!");
+                }
+            });
+        }
+    }
+
+</script>

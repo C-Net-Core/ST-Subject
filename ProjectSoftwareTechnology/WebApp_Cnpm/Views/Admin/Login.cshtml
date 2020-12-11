@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutLoginAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/login.css">
+<style>
+    input[type="submit"] {
+        background: #57b836;
+        color: white;
+        border-radius: 10px;
+        margin-top: 30px;
+        transition: 0.3s;
+    }
+</style>
+
+<form action="/Admin/CheckLogin" method="post">
+    <h1>Administration Login</h1>
+    <input name="user" type="text" placeholder="User" value=""><br>
+    <input name="pass" type="password" placeholder="Password" value=""><br>
+    <input id="submit" type="submit" value="Accept Login" />
+</form>
+
+@section Login{
+    <script>
+
+        $("#submit").click(function () {
+            var user = document.getElementsByName("user")[0].value;
+            var pass = document.getElementsByName("pass")[0].value;
+            if (user == "" || pass == "") {
+                alert("User or password invallid. Please enter again.!");
+            }
+        });
+
+    </script>
+}
+

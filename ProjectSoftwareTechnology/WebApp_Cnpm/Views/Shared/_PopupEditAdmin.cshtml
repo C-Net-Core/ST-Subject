@@ -1,0 +1,218 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .titleChooseSelectEdit {
+        margin-top: 22px;
+    }
+
+    .chooseSelectEdit {
+        margin-top: 20px;
+    }
+
+    .popup_edit {
+        height: 220px;
+    }
+
+    #messageRequest {
+        text-align: center;
+        color: red;
+        margin-top: 90px;
+        font-size: 25px;
+        font-weight: 500;
+    }
+
+    .formChangePassword {
+        margin-top: 70px;
+    }
+
+    .input_right {
+        margin-top: -50px;
+    }
+
+    .verifyForm {
+        position: relative;
+        margin-top: 20px;
+        left: 50%;
+    }
+</style>
+
+<div class="popup-themsp" id="edit">
+    <div class="popup-themsp__content popup_edit">
+        <div class="popup-themsp-left">
+            <div class="popup-themsp-left__label titleChooseSelectEdit">Categories edit&ensp;</div>
+        </div>
+        <div class="popup-themsp-right chooseSelectEdit">
+            <select id="luachonEdit" onchange="changeTypeEdit()">
+                <option value="notChoose">---Choose---</option>
+                <option value="changePassword">Change password</option>
+                <option value="changePosition">Change Position</option>
+            </select>
+        </div>
+
+        <div id="messageRequest">
+            <h1>Please choose type to edit.!!!</h1>
+        </div>
+
+        <div class="popup-themsp__content formChangePassword" id="formChangePassword" hidden>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Enter new password</div>
+                <div class="popup-themsp-left__label">Re-enter new password</div>
+            </div>
+            <div class="popup-themsp-right input_right">
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangePasswordKeys.ID" hidden />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangePasswordKeys.New_Pass" autofocus />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangePasswordKeys.ReNew_Pass" />
+                </div>
+                <input class="popup-themsp__btn verifyForm" type="submit" value="Change" onclick="ChangePassword()" />
+            </div>
+        </div>
+
+        <div class="popup-themsp__content formChangePassword" id="formChangePosition" hidden>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Old position</div>
+                <div class="popup-themsp-left__label">New position</div>
+            </div>
+            <div class="popup-themsp-right input_right">
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangePositionKeys.ID" hidden />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangePositionKeys.Old_Position" disabled />
+                </div>
+                <div class="popup-themsp-left__input">
+                    @{
+                        if (Model.Permission == "MANAGER")
+                        {
+                            <select asp-for="@Model.ChangePositionKeys.New_Position">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="STOCKSTAFF">STOCKSTAFF</option>
+                                <option value="SALESTAFF">SALESTAFF</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="@Model.ChangePositionKeys.New_Position">
+                                <option value="STOCKSTAFF">STOCKSTAFF</option>
+                                <option value="SALESTAFF">SALESTAFF</option>
+                            </select>
+                        }
+                    }
+
+                </div>
+                <input class="popup-themsp__btn verifyForm" type="submit" value="Change" onclick="ChangePosition();" />
+            </div>
+        </div>
+
+        <span onclick="back_popup_themsp();" class="back">x</span>
+    </div>
+
+</div>
+
+<script>
+    function back_popup_themsp() {
+        $("#edit").hide();
+        $("#formChangePassword").hide();
+        $("#formChangePosition").hide();
+        $("#messageRequest").show();
+    }
+
+    function changeTypeEdit() {
+
+        var choose = $("#luachonEdit").val();
+
+        if (choose == "changePassword") {
+            $("#formChangePassword").show();
+            $("#formChangePosition").hide();
+            $("#messageRequest").hide();
+        } else {
+            if (choose == "changePosition") {
+                $("#formChangePassword").hide();
+                $("#formChangePosition").show();
+                $("#messageRequest").hide();
+            } else {
+                $("#formChangePassword").hide();
+                $("#formChangePosition").hide();
+                $("#messageRequest").show();
+            }
+        }
+    }
+
+    function ChangePassword() {
+        var id = $("#ChangePasswordKeys_ID").val();
+        var newPass = $("#ChangePasswordKeys_New_Pass").val();
+        var reNewPass = $("#ChangePasswordKeys_ReNew_Pass").val();
+        //var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#\$%\^&\*])(?=.{8,})");
+        var Regex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{8,})");
+        if (newPass == "" || reNewPass == "") {
+            alert("Please enter it completely.!!!");
+        } else {
+            if (newPass != reNewPass) {
+                alert("Password do not match. Please enter again.!!!");
+                $("#ChangePasswordKeys_New_Pass").val("");
+                $("#ChangePasswordKeys_ReNew_Pass").val("");
+            } else {
+                if (Regex.test(newPass) == false) {
+                    alert("Password might have minimum 8 character, 1 number and 1 lowercase letter.");
+                } else {
+                    $.ajax({
+                        url: "/Admin/ChangePasswordAdmin",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "ID": id,
+                            "New_Pass": newPass
+                        }),
+                        async: true,
+                        processData: false,
+                        cache: false,
+                        success: function (mess) {
+                            alert(mess);
+                            location.reload();
+                        },
+                        error: function () {
+                            alert("Change password failt.!!!");
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    function ChangePosition() {
+        var id = $("#ChangePositionKeys_ID").val();
+        var oldPosition = $("#ChangePositionKeys_Old_Position").val();
+        var newPosition = $("#ChangePositionKeys_New_Position").val();
+        if (oldPosition == newPosition) {
+            alert("This position is currently being assumed by the staff.\nPlease choose again.");
+        } else {
+            $.ajax({
+                url: "/Admin/ChangePosition",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "ID": id,
+                    "New_Position": newPosition
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (mess) {
+                    alert(mess);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Change position failt.!!!");
+                }
+            });
+        }
+    }
+
+</script>

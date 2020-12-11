@@ -1,0 +1,242 @@
+﻿.wrapper {
+    background: white;
+    height: 55px;
+    position: relative;
+}
+
+.header {
+    height: 55px;
+    border-bottom: 1px solid #c8ced3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.section {
+    width: 95%;
+    margin: 30px auto;
+    background: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.title-header {
+    /*font-family: "titleHeader";*/
+    font-size: 20px;
+    position: absolute;
+    font-weight: bold;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: gray;
+    cursor: pointer;
+}
+
+#table-dh {
+    width: 96%;
+    border-collapse: collapse;
+    border: 1px solid #c8ced3;
+    background: white;
+    border-spacing: 2px;
+    margin: 20px auto;
+}
+
+    #table-dh thead tr:first-child {
+        background: #2F353A;
+        height: 45px;
+        color: white;
+        border: 1px solid #2F353A;
+        border-bottom: 2px solid #2F353A;
+    }
+
+    #table-dh thead tr:nth-child(2) {
+        height: 40px;
+        color: #5C6873;
+        /*border-bottom: 2px solid #C8CED3;*/
+    }
+
+    #table-dh thead tr:last-child {
+        background: #E4E5E6;
+        height: 40px;
+        color: #5C6873;
+        border-bottom: 2px solid #C8CED3;
+    }
+
+    #table-dh tbody td {
+        height: 35px;
+        border-bottom: 1px solid #C8CED3;
+    }
+
+    #table-dh tbody tr:hover {
+        background: #F3F3F3;
+        cursor: pointer;
+    }
+
+    #table-dh tbody td {
+        text-align: center;
+    }
+
+.nav-right {
+    float: right;
+    height: 25px;
+}
+
+    .nav-right * {
+        float: left;
+    }
+
+    .nav-right img {
+        margin-top: 10px;
+    }
+
+.ten-admin {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 17px;
+}
+
+.left-menu {
+    width: 200px;
+    height: 92vh;
+    background: #2F353A;
+    position: fixed;
+    top: 55px;
+    left: 0;
+}
+
+.left-menu__item {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    margin-top: 10px;
+    /*position: relative;*/
+}
+
+    .left-menu__item:hover {
+        background: #20A8D8;
+    }
+
+.copyright {
+    color: white;
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+}
+
+.main {
+    margin-top: 55px;
+    margin-left: 200px;
+    background: #E4E5E6;
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+.chart {
+    display: inline-block;
+    width: 280px;
+    height: 180px;
+    margin-top: 50px;
+    margin-left: 75px;
+    border-radius: 10px;
+    margin-right: -5px;
+}
+
+.chart__num {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    padding-top: 25px;
+    text-align: center;
+}
+
+.chart__num__order {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    padding-top: 25px;
+    text-align: center;
+}
+
+.chart__label {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+    .chart__label a {
+        text-decoration: none;
+        color: snow;
+        transition: all 0.3s;
+    }
+
+        .chart__label a:hover {
+            font-size: 18.5px;
+        }
+
+
+.chart-bgred {
+    border: 1px solid red;
+    background: #F86C6B;
+}
+
+.chart-bgblue {
+    border: 1px solid #2EADD3;
+    background: #63C2DE;
+}
+
+.chart-bgbluewhite {
+    border: 1px solid blue;
+    background: #20A8D8;
+}
+
+.chart-bgyellow {
+    border: 1px solid #C69500;
+    background: #FFC107;
+}
+
+.chart-bgred2 {
+    border: 1px solid red;
+    background: #ed6e44;
+}
+
+.chart-bgblue2 {
+    border: 1px solid #2EADD3;
+    background: #3befa7;
+}
+
+.chart-bgbluewhite2 {
+    border: 1px solid blue;
+    background: #299bb5;
+}
+
+.chart-bgyellow2 {
+    border: 1px solid #C69500;
+    background: #c1b920;
+}
+
+.chart__img {
+    height: 76px;
+    width: 249px;
+}
+
+.chart__img-img1 {
+    background: url(../image/chart.jpg);
+    margin-left: -1px;
+}
+
+.chart__img-img4 {
+    background: url(../image/chart_3.jpg);
+}
+
+.chart__img-img3 {
+    background: url(../image/chart_2.jpg);
+}
+
+.chart__img-img2 {
+    background: url(../image/chart_4.jpg);
+}

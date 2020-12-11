@@ -1,0 +1,228 @@
+﻿@using Application.DTOs;
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Breadcrumb Section Begin-->
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vatva Shop</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <h4>Billing Details</h4>
+            <div class="row">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Fist Name<span>*</span></p>
+                                <input type="text" id="firstname">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Last Name<span>*</span></p>
+                                <input type="text" id="lastname" pattern="[a-z]{1,15}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="checkout__input">
+                                <p>Address<span>*</span></p>
+                                <input type="text" id="street" placeholder="Street Address" class="checkout__input__add">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="checkout__input">
+                                <p>District<span>*</span></p>
+                                <div id="comboChild"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="checkout__input">
+                                <p>City<span>*</span></p>
+                                <select id="IDprovince" onchange="ChangeProvince()" class="checkout__input__add">
+                                    @{
+                                        IEnumerable<ProvinceDTO> provinceArr = ViewData["province"] as IEnumerable<ProvinceDTO>;
+                                        foreach (ProvinceDTO items in provinceArr)
+                                        {
+                                            <option value="@items.IdProvince">@items.NameProvince</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="checkout__input">
+                        <p>Phone<span>*</span></p>
+                        <input type="number" id="phone">
+                    </div>
+                    <div class="checkout__input">
+                        <p>Notes</p>
+                        <input type="text" id="note" placeholder="Notes about your order for delivery." />
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6">
+                    <div class="col-lg-12 checkout__order">
+                        <h4 style="text-align:center;">Your Order</h4>
+                        <div>
+                            <span class="col-lg-5" style="font-size:18px;font-weight:600;margin-right:35px;margin-bottom:10px;">Products</span>
+                            <span class="col-lg-2" style="font-size:18px;font-weight:600;margin-right:55px;margin-bottom:10px;">Amount</span>
+                            <span class="col-lg-5" style="font-size:18px;font-weight:600;margin-bottom:10px;">Total</span>
+                        </div>
+                        <div>
+                            @{
+                                var tongtien = 0;
+                                foreach (CartItems item in ViewBag.carts)
+                                {
+                                    tongtien += item.Total;
+                                    <span class="col-lg-5" style="font-size:16px;margin-right:20px;margin-bottom:5px;">@item.Name</span>
+                                    <span class="col-lg-1" style="font-size:16px;margin-right:25px;margin-bottom:5px;">@item.Amount</span>
+                                    <span class="col-lg-6" style="font-size:16px;margin-bottom:10px;">@item.Total.ToString("#,##0").Replace(",", ".") VNĐ</span>
+                                }
+                            }
+                        </div>
+                        <div class="checkout__order__subtotal">Subtotal <span>@tongtien.ToString("#,##0").Replace(",", ".") VNĐ</span></div>
+                        @{
+                            <div class="checkout__order__total">Fee Ship <span id="fee" style="font-size:18px;font-weight:600;"></span></div>
+                            <div class="checkout__order__total">Total <span id="total"></span></div>
+
+                        }
+                        <div class="checkout__order__total">
+                            Payment methods
+                            <span>
+                                Payment on delivery
+                            </span>
+                        </div>
+                        <button type="submit" onclick="placeOrder()" class="site-btn">PLACE ORDER</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Checkout{
+    <script>
+
+    function ChangeProvince () {
+        var IDprovince = $("#IDprovince").val();
+
+        // ajax này dùng để thay đổi quận khi click chọn thành phố
+        $.ajax({
+            url: "/Home/ChangeWardWhenChangeProvince",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "ID": parseInt(IDprovince)
+            }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (dataWards) {
+                document.getElementById("comboChild").innerHTML = '<select class="checkout__input__add" id="IDdistrict"></select>';
+                
+                //dataWards.forEach(items => {
+                //    alert(items["idWard"]);
+                //});
+
+                for (var i in dataWards) {
+                    var wards = Object.values(dataWards[i]);
+                    var valueWard = wards[1].split(' ');
+                    $("#IDdistrict").append('<option value=' + valueWard[1] + '>'+ wards[1] + '</option>');
+                }
+            },
+
+            error: function () {
+                alert("Changed failt.!!!");
+            }
+        });
+
+        // ajax này dùng để lấy phí ship theo thành phố được lựa chọn
+        $.ajax({
+            url: "/Home/GetFeeShip",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "ID": parseInt(IDprovince)
+            }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (valueFeeShip) {
+                $("#fee").html("");
+                $("#fee").append(valueFeeShip.replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+                $("#total").html("");
+                $("#total").append(String(@tongtien + parseInt(valueFeeShip)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ");
+            },
+
+            error: function () {
+                alert("Update FeeShip failt.!!!");
+            }
+        });
+        }
+
+        function placeOrder() {
+            var IDprovince = $("#IDprovince").val();
+            var firstName = $("#firstname").val();
+            var lastName = $("#lastname").val();
+            var street = $("#street").val();
+            var district = $("#IDdistrict").val();
+            var province = $("#IDprovince").val();
+            var phone = $("#phone").val();
+            var note = $("#note").val();
+            if (firstName == "" || lastName == "" || street == "") {
+                alert("Please enter the required fields marked with (*)");
+            } else {
+                $.ajax({
+                    url: "/Home/PayOrder",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "IDprovince": parseInt(IDprovince),
+                        "FirstName": firstName,
+                        "LastName": lastName,
+                        "Street": street,
+                        "District": district,
+                        "Province": province,
+                        "Phone": phone,
+                        "Note": note
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (value) {
+                        alert(value);
+                    },
+                    error: function () {
+                        alert("PayOrder failt.!!!");
+                    }
+                });
+            }
+        }
+
+        var body = $("html, body");
+        body.animate({ scrollTop: 687 });
+    </script>
+}

@@ -1,0 +1,445 @@
+﻿
+@{
+    ViewData["Title"] = "Shopping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Application.DTOs;
+@model IEnumerable<ProductDTO>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vatva Shop</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item" style="border:1px solid white;">
+                        <h4 class="mode_text" style="text-align:center">All Brands</h4>
+                        <hr style="background-color:whitesmoke"/>
+                        <ul>
+                            @{
+                                IEnumerable<ProductTypeDTO> list = ViewData["productType"] as IEnumerable<ProductTypeDTO>;
+                                IEnumerable<ProductDTO> sp = ViewData["product"] as IEnumerable<ProductDTO>;
+                                foreach (ProductTypeDTO item in list)
+                                {
+                                    <li class="hover_li"><a class="mode_text" asp-controller="Home" asp-action="Shop_Grid" asp-route-id="@item.IDLSP" style="margin-left:50px;font-size:18px;">@item.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="sidebar__item">
+                        <h4 class="mode_text">Filter with price</h4>
+                        <div class="price-range-wrap">
+                            @*<div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                     data-min="10" data-max="540">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>*@
+                            <div class="range-slider">
+                            </div>
+                            <div class="price-input">
+                                <form asp-controller="Home" asp-action="Shop_Grid">
+                                    <h5 class="mode_text">From</h5>
+                                    <input type="text" name="minPrice" style="width:180px;display:inline-block;">
+                                    <h5 class="mode_text" style="width:20px;display:inline-block;">(VNĐ)</h5>
+                                    <br />
+                                    <h5 class="mode_text">To</h5>
+                                    <input type="text" name="maxPrice" style="width:180px;display:inline-block;">
+                                    <h5 class="mode_text" style="width:20px;display:inline-block;">(VNĐ)</h5>
+                                    <input class="mode_text" type="submit" value="Filter"
+                                           style="width:100px;" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
+                        <h4 class="mode_text">Popular Size</h4>
+                        <div class="sidebar__item__size">
+                            <label for="37">
+                                37
+                                <input type="radio" id="37">
+                            </label>
+                        </div>
+                        <div class="sidebar__item__size">
+                            <label for="38">
+                                38
+                                <input type="radio" id="38">
+                            </label>
+                        </div>
+                        <div class="sidebar__item__size">
+                            <label for="39">
+                                39
+                                <input type="radio" id="39">
+                            </label>
+                        </div>
+                        <div class="sidebar__item__size">
+                            <label for="40">
+                                40
+                                <input type="radio" id="40">
+                            </label>
+                        </div>
+                        <div class="sidebar__item__size">
+                            <label for="41">
+                                41
+                                <input type="radio" id="41">
+                            </label>
+                        </div>
+                        <div class="sidebar__item__size">
+                            <label for="42">
+                                42
+                                <input type="radio" id="42">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
+                        <div class="latest-product__text">
+                            <h4 class="mode_text">Latest Products</h4>
+                            <div class="latest-product__slider owl-carousel">
+                                <div class="latest-prdouct__slider__item">
+                                    @{
+                                        var dem = 0;
+                                        foreach (ProductDTO item in sp)
+                                        {
+                                            if (dem < 3)
+                                            {
+                                                <a class="latest-product__item">
+                                                    <div class="latest-product__item__pic">
+                                                        <img style="width:55%;height:120px;display:inline-block;border-radius:10%;" src="~/img/product/@item.Image">
+                                                        <h6 class="mode_text" style="margin-left:3px;width:43%;float:right;display:inline-block;">@item.Name<br /><br />Remain: @item.Amount<br /><br />Cost: @item.Cost</h6>
+                                                    </div>
+                                                </a>
+                                            }
+                                            dem++;
+                                        }
+                                    }
+                                </div>
+                                <div class="latest-prdouct__slider__item">
+                                    @{
+                                        dem = 0;
+                                        foreach (ProductDTO item in sp)
+                                        {
+                                            if (dem >= 3 && dem < 6)
+                                            {
+                                                <a class="latest-product__item">
+                                                    <div class="latest-product__item__pic">
+                                                        <img style="width:55%;height:120px;display:inline-block;border-radius:10%;" src="~/img/product/@item.Image">
+                                                        <h6 class="mode_text" style="margin-left:3px;width:43%;float:right;display:inline-block;">@item.Name<br /><br />Remain: @item.Amount<br /><br />Cost: @item.Cost</h6>
+                                                    </div>
+                                                </a>
+                                            }
+                                            dem++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="product__discount">
+                    <div class="section-title product__discount__title">
+                        <h2 class="mode_text">Sale Off</h2>
+                    </div>
+                    <div class="row">
+                        <div class="product__discount__slider owl-carousel">
+                            @{
+                                var slsp = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (int.Parse(sale.phantram) > 0)
+                                    {
+                                        slsp++;
+                                        <div class="col-lg-4">
+                                            <div class="product__discount__item">
+                                                <div class="product__discount__item__pic set-bg"
+                                                     data-setbg="/img/product/@item.Image">
+                                                    <div class="product__discount__percent">-@int.Parse(sale.phantram)%</div>
+                                                    <ul class="product__item__pic__hover">
+                                                        <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@item.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product__discount__item__text">
+                                                    <h5><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP">@item.Name</a></h5>
+                                                    <div class="product__item__price mode_text">@((int.Parse(item.Cost) - int.Parse(item.Cost) * int.Parse(sale.phantram) * 0.01).ToString("#,##0").Replace(",", ".")) VNĐ<span>@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</span></div>
+                                                    <h6 style="font-size:13px;color:lightgray;">Remaining: @item.Amount</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter__item">
+                    <div class="section-title product__discount__title">
+                        <h2 class="mode_text">Search</h2>
+                    </div>
+                    <div class="row" style="width:800px;">
+                        <div style="width:800px;">
+                            <form style="width:468px;display:inline-block;" asp-controller="Home" asp-action="Shop_Grid">
+                                <input type="text" id="valueSearch"
+                                       name="search"
+                                       placeholder="What do you need?"
+                                       style="font-size: 22px;width:300px;display:inline-block;padding:5px;text-align:center">
+
+                                <input type="submit" value="SEARCH" id="findWithValueSearch"
+                                       style="display:inline-block;" />
+                            </form>
+                            <div style="width:300px;display:inline-block;">
+                                <button id="btnTalk" title="You can search product with voice"
+                                        style="margin-left:15px;">
+                                    Voice Search
+                                    <i class="fa fa-microphone" aria-hidden="true"></i>
+                                </button> <i style="color:red;">(New feature)</i>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found" id="foundsearch">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="productsearch">
+
+                </div>
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs" role="tablist" id="trangsearch">
+                    </ul>
+                </div>
+                <div class="filter__item">
+                    <div class="section-title product__discount__title">
+                        <h2 class="mode_text">Products</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                @{
+                                    if (Model.Count() > 0)
+                                    {
+                                        <h6><span class="mode_text">@Model.Count() Products found</span></h6>
+                                    }
+                                    else
+                                    {
+                                        <h6><span class="mode_text">@sp.Count() Products found</span></h6>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* =======================================================================================
+                    =====================================================================================*@
+
+                <div class="tab-content" id="product">
+                    @{
+                        if (Model.Count() == 0)
+                        {
+                            for (int i = 1; i <= Math.Ceiling((double)(sp.Count()) / 9); i++)
+                            {
+                                int demsl = 0;
+                                int soluongsp = i * 9 - 9;
+                                int soluonghientai = i * 9;
+                                string active = "active";
+                                if (i != 1)
+                                {
+                                    active = "";
+                                }
+                                <div class="row tab-pane @active" id="tabs-@i" role="tabpanel">
+                                    @foreach (ProductDTO item in sp)
+                                    {
+                                        if (demsl >= soluongsp && demsl < soluonghientai)
+                                        {
+                                            SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                                .Where(s => s.IDKM == item.IDKM)
+                                                                                .FirstOrDefault();
+
+                                            <div class="col-lg-3 col-md-6 col-sm-6" style="display:inline-block;margin-left:45px;margin-right:25px;">
+                                                <div class="product__item" style="width:260px;">
+                                                    <div class="product__item__pic set-bg" data-setbg="/img/product/@item.Image">
+                                                        <ul class="product__item__pic__hover">
+                                                            <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@item.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product__item__text">
+                                                        <h6><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP">@item.Name</a></h6>
+                                                        <h5 class="mode_text">@((int.Parse(item.Cost) - int.Parse(item.Cost) * int.Parse(sale.phantram) * 0.01).ToString("#,##0").Replace(",", ".")) VNĐ</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        demsl++;
+                                    }
+                                    <p align="center" class="col-lg-12 col-sm-12 col-md-12">Trang hiện tại: @i</p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 1; i <= Math.Ceiling((double)(Model.Count()) / 9); i++)
+                            {
+                                int demsl = 0;
+                                int soluongsp = i * 9 - 9;
+                                int soluonghientai = i * 9;
+                                string active = "active";
+                                if (i != 1)
+                                {
+                                    active = "";
+                                }
+                                <div class="row tab-pane @active" id="tabs-@i" role="tabpanel">
+                                    @foreach (var pd in Model)
+                                    {
+                                        if (demsl >= soluongsp && demsl < soluonghientai)
+                                        {
+
+                                            SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == pd.IDKM)
+                                                                        .FirstOrDefault();
+
+                                            <div class="col-lg-3 col-md-6 col-sm-6" style="display:inline-block;margin-left:45px;margin-right:25px;">
+                                                <div class="product__item" style="width:260px;">
+                                                    <div class="product__item__pic set-bg" data-setbg="/img/product/@pd.Image">
+                                                        <ul class="product__item__pic__hover">
+                                                            <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@pd.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product__item__text">
+                                                        <h6><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@pd.IDSP">@pd.Name</a></h6>
+                                                        <h5 class="mode_text">@((int.Parse(pd.Cost) - int.Parse(pd.Cost) * int.Parse(sale.phantram) * 0.01).ToString("#,##0").Replace(",", ".")) VNĐ</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <p align="center" class="col-lg-12 col-sm-12 col-md-12">Trang hiện tại: @i</p>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+                <div class="col-lg-2" style="margin:auto">
+                    <ul class="nav nav-tabs" role="tablist">
+                        @{
+                            if (Model.Count() == 0)
+                            {
+                                for (int i = 1; i <= Math.Ceiling((double)sp.Count() / 9); i++)
+                                {
+                                    if (i != 1)
+                                    {
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-@i" role="tab"
+                                               aria-selected="true">@i</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+
+                                        <li class="nav-item active">
+                                            <a class="nav-link active" data-toggle="tab" href="#tabs-@i" role="tab"
+                                               aria-selected="true">@i</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 1; i <= Math.Ceiling((double)Model.Count() / 9); i++)
+                                {
+                                    if (i != 1)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-@i" role="tab"
+                                               aria-selected="true">@i</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+
+                                        <li class="nav-item active">
+                                            <a class="nav-link active" data-toggle="tab" href="#tabs-@i" role="tab"
+                                               aria-selected="true">@i</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="test"></section>
+<!-- Product Section End -->
+
+@section Grid{
+    <script>
+        var body = $("html, body");
+        body.animate({ scrollTop: 689 });
+
+        // #region Voice Search
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+
+        var grammar = '#JSGF V1.0;'
+
+        var recognition = new SpeechRecognition();
+        var speechRecognitionList = new SpeechGrammarList();
+        speechRecognitionList.addFromString(grammar, 1);
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = false;
+
+        recognition.onresult = function (event) {
+            var lastResult = event.results.length - 1;
+            var content = event.results[lastResult][0].transcript;
+
+            if (content != null) {
+                alert("You want to find products with names: " + content);
+                $("#findWithValueSearch").click();
+            }
+        };
+
+        recognition.onspeechend = function () {
+            recognition.stop();
+        };
+
+        recognition.onerror = function () {
+            alert("Please say again.!!!");
+        }
+
+        document.querySelector('#btnTalk').addEventListener('click', function () {
+            recognition.start();
+        });
+        // #endregion
+
+    </script>
+}

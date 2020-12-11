@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Management";
+    Layout = "~/Views/Shared/_LayoutAccountManagement.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .button_create {
+        padding: 8px;
+        border-radius: 10px;
+        background-color: rebeccapurple;
+        color: white;
+        outline: none;
+        cursor: pointer;
+        border: none;
+        box-shadow: 3px 0px 3px rebeccapurple;
+    }
+</style>
+
+<div id="tab1" class="tab_inventory_show">
+    <h3>Administrator Account List</h3>
+
+    <form action="/Admin/FunctionManagement" style="margin-left:20px;width:280px;display:inline-block;">
+        <input type="text" name="nameFunction" style="outline-style:none;" placeholder="Enter user you need find" />
+        <input type="submit" value="Search" style="cursor:pointer;" />
+    </form>
+
+    @if (Model.Permission == "MANAGER")
+    {
+        <div style="width:200px;float:right;">
+            <button class="button_create" onclick="CreateFunction();">Create New Function</button>
+        </div>
+    }
+
+
+    @{
+        if (Model.Functions.Count() == 0)
+        {
+            <h1 style="text-align:center;color:red;">Not found</h1>
+            <h4 style="text-align:center"><a asp-action="FunctionManagement">Back</a></h4>
+        }
+        else
+        {
+            <table id="table-sp">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Name function</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bodyTable">
+                    @foreach (var item in Model.Functions)
+                    {
+                        <tr class="thunghiem">
+                            <td>@item.IDCN</td>
+                            <td>@item.Name</td>
+                            <td>
+                                @if (Model.Permission == "MANAGER")
+                                {
+                                    <button type="button" class="nhapkho" onclick="Edit(@item.IDCN,'@item.Name')">Edit</button>
+                                    <button type="button" class="nhapkho" onclick="Del('@item.IDCN.ToString()')">Del</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="bodyPaginated" id="pagination">
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Functions.PageIndex -1)">Previous</a>
+                @{
+                    var dem = 1;
+                    for (int i = 1; i <= Model.countFunction; i += 3)
+                    {
+                        <a class="btn btn-default tranformPage"
+                           asp-route-pageIndex="@dem">@dem</a>
+                        dem++;
+                    }
+                }
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Functions.PageIndex +1)">Next</a>
+                @{
+                    if (Model.Functions.PageIndex <= 1)
+                    {
+                        <h6 class="showPage">On page 1</h6>
+                    }
+                    else
+                    {
+                        if (Model.Functions.PageIndex >= dem)
+                        {
+                            <h6 class="showPage">On page @dem</h6>
+                        }
+                        else
+                        {
+                            <h6 class="showPage">On page @Model.Functions.PageIndex</h6>
+                        }
+                    }
+                }
+            </div>
+        }
+    }
+
+    <partial name="_PopupAddFunction" />
+    <partial name="_PopupEditFunction" />
+
+</div>
+
+@section FunctionManagement{
+    <script>
+
+        function Edit(id, name) {
+            if (confirm("Do you want edit this function.?")) {
+                $("#ID_Function").val(id);
+                $("#Name_Function_Edit").val(name);
+                $("#suachucnang").show();
+            }
+        }
+
+        function CreateFunction() {
+            if (confirm("Do you want create new function for project")) {
+                $("#themchucnang").toggle();
+            }
+        }
+
+        function Del(id) {
+            if (confirm("Do you want delete this function.???")) {
+                $.ajax({
+                    url: "/Admin/DeleteFunction",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "ID_Function": id,
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (mess) {
+                        alert(mess);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Change position failt.!!!");
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+
+
+

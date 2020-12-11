@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/admin/css/admin.css">
+    <link rel="stylesheet" href="~/admin/css/index.css">
+    <link rel="stylesheet" href="~/admin/css/qlsp.css">
+    <link rel="stylesheet" href="~/admin/css/qldh.css">
+    <link rel="stylesheet" href="~/admin/css/qluser.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <div class="content-left"></div>
+            <div class="content-right">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- Js Plugins -->
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.nice-select.min.js"></script>
+<script src="~/js/jquery-ui.min.js"></script>
+<script src="~/js/jquery.slicknav.js"></script>
+<script src="~/js/mixitup.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/main.js"></script>
+
+@RenderSection("Login", required: false)

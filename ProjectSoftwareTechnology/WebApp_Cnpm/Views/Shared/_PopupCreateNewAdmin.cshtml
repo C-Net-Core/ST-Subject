@@ -1,0 +1,178 @@
+﻿@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .popup_createNew {
+        height: 300px;
+    }
+
+    #titlePopupCreate {
+        text-align: center;
+        color: red;
+        font-weight: 500;
+    }
+
+    #showForm {
+        border: 1px solid silver;
+        margin-top: 15px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .titleLeft {
+        width: 45%;
+        display: inline-block;
+        border: 1px solid black;
+    }
+
+        .titleLeft label {
+            float: right;
+            border: 1px solid black;
+            margin-top: 10px;
+            padding: 5px;
+            font-size: 12px;
+            display: block;
+        }
+
+    .fieldsRight {
+        width: 45%;
+        display: inline-block;
+        border: 1px solid black;
+    }
+
+    .acceptCreate {
+        position: relative;
+        margin-top: 280px;
+        left: 75%;
+        padding: 8px;
+        background-color: greenyellow;
+        color: black;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        width: 110px;
+        outline: none;
+        font-size: 16px;
+    }
+
+        .acceptCreate:hover {
+            font-weight: 600;
+        }
+</style>
+
+<div class="popup-themsp" id="createNew">
+    <div class="popup-themsp__content popup_createNew">
+        <div class="popup-themsp__content">
+            <div id="titlePopupCreate">
+                <h3>Create new account</h3>
+            </div>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">User name</div>
+                <div class="popup-themsp-left__label">Password</div>
+                <div class="popup-themsp-left__label">Re-Password</div>
+                <div class="popup-themsp-left__label">Position</div>
+            </div>
+            <div class="popup-themsp-right">
+
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.createNewAdmin.Username" autofocus />
+                </div>
+
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.createNewAdmin.Password" type="password"/>
+                </div>
+
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.createNewAdmin.Re_Password" type="password" />
+                </div>
+
+                <div class="popup-themsp-left__input">
+                    @{
+                        if (Model.Permission == "MANAGER")
+                        {
+                            <select asp-for="@Model.createNewAdmin.Position">
+                                <option value="MANAGER">MANAGER</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="STOCKSTAFF">STOCKSTAFF</option>
+                                <option value="SALESTAFF">SALESTAFF</option>
+                            </select>
+                        }
+                        else
+                        {
+                            if (Model.Permission == "ADMIN")
+                            {
+                                <select asp-for="@Model.createNewAdmin.Position">
+                                    <option value="STOCKSTAFF">STOCKSTAFF</option>
+                                    <option value="SALESTAFF">SALESTAFF</option>
+                                </select>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <button class="acceptCreate" type="submit" onclick="AcceptCreate();">Create</button>
+        <span onclick="back_popup_create();" class="back">x</span>
+    </div>
+</div>
+
+<script>
+
+    function back_popup_create() {
+        $("#createNew").hide();
+    }
+
+    function AcceptCreate() {
+
+        var user = $("#createNewAdmin_Username").val();
+        var pass = $("#createNewAdmin_Password").val();
+        var rePass = $("#createNewAdmin_Re_Password").val();
+        var position = $("#createNewAdmin_Position").val();
+
+        var Regex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{8,})");
+
+        if (user == "" || pass == "" || rePass == "") {
+            alert("Please enter it completely.!!!");
+        } else {
+            if (pass != rePass) {
+                alert("Password do not match. Please enter again.!!!");
+                $("#createNewAdmin_Password").val("");
+                $("#createNewAdmin_Re_Password").val("");
+            } else {
+                if (Regex.test(pass) == false) {
+                    alert("Password might have minimum 8 character, 1 number and 1 lowercase letter.");
+                } else {
+                    $.ajax({
+                        url: "/Admin/CreateNewAccountAdmin",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "Username": user,
+                            "Password": pass,
+                            "Position": position
+                        }),
+                        async: true,
+                        processData: false,
+                        cache: false,
+                        success: function (mess) {
+                            if (mess == "Existed") {
+                                alert("Username has been existed");
+                                $("#createNewAdmin_Username").val("");
+                                $("#createNewAdmin_Password").val("");
+                                $("#createNewAdmin_Re_Password").val("");
+                            } else {
+                                alert("Created successful")
+                                location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert("Create account admin failt.!!!");
+                        }
+                    });
+                }
+            }
+        }
+
+    }
+
+</script>

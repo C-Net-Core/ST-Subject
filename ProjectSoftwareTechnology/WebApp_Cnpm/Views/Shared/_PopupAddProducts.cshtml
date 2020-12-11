@@ -1,0 +1,75 @@
+﻿
+@using Application.DTOs;
+
+@model WebApp_Cnpm.ViewModels.AddProductsModel
+
+<div class="popup-themsp" id="themsp">
+    <form asp-action="AddNewProduct" enctype="multipart/form-data">
+        <div class="popup-themsp__content" style="height:590px;">
+            <div class="popup-themsp__title">Add Product</div>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Product Type</div>
+                <div class="popup-themsp-left__label">Name</div>
+                <div class="popup-themsp-left__label">Cost</div>
+                <div class="popup-themsp-left__label">Decription</div>
+                <div class="popup-themsp-left__label">Choose Image</div>
+                <div class="popup-themsp-left__label" style="margin-top:160px;">Size</div>
+            </div>
+            <div class="popup-themsp-right">
+                <select asp-for="@Model.Keys.productTypeID" style="margin-bottom:20px;">
+                    @{
+                        IEnumerable<ProductTypeDTO> productTypeDTOs = ViewData["productTypes"] as IEnumerable<ProductTypeDTO>;
+                        foreach (var item in productTypeDTOs)
+                        {
+                            <option value="@item.IDLSP">@item.Name</option>
+                        }
+                    }
+                </select>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.Keys.name" />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.Keys.cost" />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <textarea asp-for="@Model.Keys.decription"></textarea>
+                </div>
+                <div class="popup-themsp-left__input">
+                    <div id="imageNewProduct" style="border:1px solid black;width:150px;height:150px;"></div>
+                    <input asp-for="@Model.Keys.image" accept="image/*" onchange="chooseImage();" />
+                </div>
+                <select asp-for="@Model.Keys.size" style="margin-bottom:20px;margin-top:170px;"></select>&ensp;&ensp; Sale
+                <select asp-for="@Model.Keys.saleID"></select>
+                <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="AddNewProduct();"/>
+                <span onclick="back_popup_themsp();" class="back">x</span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+    function chooseImage() {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(document.getElementById('Keys_image').files[0]);
+        img.height = 150;
+        img.width = 150;
+        img.onload = function () {
+            URL.revokeObjectURL(this.src);
+        }
+        $('#imageNewProduct').html(img);
+    }
+
+    function AddNewProduct() {
+        var name = $("#Keys_name").val();
+        var cost = $("#Keys_cost").val();
+        var image = $("#Keys_image").val();
+        var amount = $("#Keys_amount").val();
+
+        if (name == "" || cost == "" || amount == "" || image == "") {
+            alert("Please enter enough infomation of product.");
+        }
+    }
+
+</script>

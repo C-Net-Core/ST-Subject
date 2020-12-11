@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "InfoOrder";
+    Layout = "~/Views/Shared/_LayoutOrderManagement.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.OrderManagement
+
+<div id="tab1" class="tab_inventory_show">
+
+    <table id="table-sp">
+        <tr>
+            <th>NO</th>
+            <th>Name product</th>
+            <th>Amount</th>
+            <th>Size</th>
+            <th>Price (VNĐ)</th>
+            <th>Into money (VNĐ)</th>
+        </tr>
+        @{
+            var no = 0;
+            foreach (var item in Model.detailOrders)
+            {
+                no++;
+                <tr class="thunghiem">
+                    <td>@no</td>
+                    <td>@item.NameProduct</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Size</td>
+                    <td>@int.Parse(item.Price).ToString("#,##0").Replace(",", ".")</td>
+                    <td>@int.Parse(item.IntoMoney).ToString("#,##0").Replace(",", ".")</td>
+                </tr>
+            }
+        }
+    </table>
+
+    <h4 style="text-align:center"><a href ="javascript:history.back()">Back</a></h4>
+
+</div>
+

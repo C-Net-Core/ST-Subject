@@ -1,0 +1,318 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Management";
+    Layout = "~/Views/Shared/_LayoutAccountManagement.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .button_create {
+        padding: 8px;
+        border-radius: 10px;
+        background-color: rebeccapurple;
+        color: white;
+        outline: none;
+        cursor: pointer;
+        border: none;
+        box-shadow: 3px 0px 3px rebeccapurple;
+    }
+</style>
+
+<div id="tab1" class="tab_inventory_show">
+    <h3>Administrator Account List</h3>
+
+    <form action="/Admin/AdminManagement" style="margin-left:20px;width:280px;display:inline-block;">
+        <input type="text" name="username" style="outline-style:none;" placeholder="Enter user you need find" />
+        <input type="submit" value="Search" style="cursor:pointer;" />
+    </form>
+
+    <div style="width:250px;display:inline-block;">
+        Filter with Status&ensp;
+        <select class="custom-select-lg" id="filter_status_admin" onchange="filterAdminForStatus()" style="cursor:pointer;">
+            <option value="notChoose">Not choose</option>
+            <option value="On">On</option>
+            <option value="Locked">Locked</option>
+        </select>
+    </div>
+
+    <div style="width:200px;float:right;">
+        <button class="button_create" onclick="CreateAccount();">Create New Account</button>
+    </div>
+
+    @{
+        if (Model.Admins.Count() == 0)
+        {
+            <h1 style="text-align:center;color:red;">Not found</h1>
+            <h4 style="text-align:center"><a asp-action="AdminManagement">Back</a></h4>
+        }
+        else
+        {
+            <table id="table-sp">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Username</th>
+                        <th>Password<span style="color:red;"> (not allow seen)</span></th>
+                        <th>Status</th>
+                        <th>Date active</th>
+                        <th>Position</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bodyTable">
+                    @foreach (var item in Model.Admins)
+                    {
+                        <tr class="thunghiem" id="stt_@item.Status">
+                            <td>@item.ID</td>
+                            <td>@item.UID</td>
+                            <td>***************</td>
+                            @{
+                                if (item.Status == "On")
+                                {
+                                    <td style="color:lawngreen;font-weight:600;">@item.Status</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Status</td>
+                                }
+                            }
+                            <td>@item.DateActive</td>
+                            <td>@item.Permission</td>
+                            <td>
+                                @{
+                                    // trạng thái On - các item có quyền khác MANAGER - đăng nhập quyền MANAGER
+                                    if (item.Status == "On"
+                                        && item.Permission != "MANAGER"
+                                        && Model.Permission == "MANAGER")
+                                    {
+                                        <button type="button" class="nhapkho" onclick="setStatusAdmin(@item.ID,'lock')">Lock</button>
+                                        <button type="button" class="nhapkho" onclick="editAdmin(@item.ID,'@item.Permission')">Edit</button>
+                                        <button style="width:115px;" type="button" class="nhapkho" onclick="Permission(@item.ID)">Permission</button>
+                                    }
+                                    else
+                                    {
+                                        // trạng thái Locked - các item có quyền khác MANAGER - đăng nhập quyền MANAGER
+                                        if (item.Status == "Locked"
+                                                        && item.Permission != "MANAGER"
+                                                        && Model.Permission == "MANAGER")
+                                        {
+                                            <button type="button" class="nhapkho" onclick="setStatusAdmin(@item.ID,'unlock')">Unlock</button>
+                                            <button type="button" class="nhapkho" onclick="editAdmin(@item.ID,'@item.Permission')">Edit</button>
+                                            <button style="width:115px;" type="button" class="nhapkho" onclick="Permission(@item.ID)">Permission</button>
+                                        }
+                                        else
+                                        {
+                                            if (item.Permission == "MANAGER")
+                                            {
+                                                // ko cấp quyền
+                                            }
+                                        }
+                                    }
+
+                                    if (item.Status == "On"
+                                        && item.Permission != "ADMIN"
+                                        && item.Permission != "MANAGER"
+                                        && Model.Permission == "ADMIN")
+                                    {
+                                        <button type="button" class="nhapkho" onclick="setStatusAdmin(@item.ID,'lock')">Lock</button>
+                                        <button type="button" class="nhapkho" onclick="editAdmin(@item.ID,'@item.Permission')">Edit</button>
+                                        <button style="width:115px;" type="button" class="nhapkho" onclick="Permission(@item.ID)">Permission</button>
+                                    }
+                                    else
+                                    {
+                                        if (item.Status == "Locked"
+                                        && item.Permission != "ADMIN"
+                                        && item.Permission != "MANAGER"
+                                        && Model.Permission == "ADMIN")
+                                        {
+                                            <button type="button" class="nhapkho" onclick="setStatusAdmin(@item.ID,'unlock')">Unlock</button>
+                                            <button type="button" class="nhapkho" onclick="editAdmin(@item.ID,'@item.Permission')">Edit</button>
+                                            <button style="width:115px;" type="button" class="nhapkho" onclick="Permission(@item.ID)">Permission</button>
+                                        }
+                                    }
+
+                                    if (Model.ID_Admin == item.ID)
+                                    {
+                                        <button style="width:140px;" type="button" class="nhapkho" onclick="editYourselfAdmin(@item.ID)">Change password</button>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="bodyPaginated" id="pagination">
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Admins.PageIndex -1)">Previous</a>
+                @{
+                    var dem = 1;
+                    for (int i = 1; i <= Model.countAdmin; i += 3)
+                    {
+                        <a class="btn btn-default tranformPage"
+                           asp-route-pageIndex="@dem">@dem</a>
+                        dem++;
+                    }
+                }
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.Admins.PageIndex +1)">Next</a>
+                @{
+                    if (Model.Admins.PageIndex <= 1)
+                    {
+                        <h6 class="showPage">On page 1</h6>
+                    }
+                    else
+                    {
+                        if (Model.Admins.PageIndex >= dem)
+                        {
+                            <h6 class="showPage">On page @dem</h6>
+                        }
+                        else
+                        {
+                            <h6 class="showPage">On page @Model.Admins.PageIndex</h6>
+                        }
+                    }
+                }
+            </div>
+        }
+    }
+
+    <partial name="_PopupEditAdmin" />
+    <partial name="_PopupEditYourSelfAdmin" />
+    <partial name="_PopupPermissionAdmin" />
+    <partial name="_PopupCreateNewAdmin" />
+    
+</div>
+
+@section AdminManagement{
+    <script>
+
+        function setStatusAdmin(id, status) {
+            if (confirm("Do you want lock this account")) {
+                $.ajax({
+                    url: "/Admin/LockAdmin",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "ID_Admin": id,
+                        "Status_Admin": status
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (message) {
+                        alert(message);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Lock failt.!!!");
+                    }
+                });
+            }
+        }
+
+        function filterAdminForStatus() {
+
+            var status = $("#filter_status_admin").val();
+
+            $.ajax({
+                url: "/Admin/FilterAdminForStatus",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "Status_Admin": status
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (status == "notChoose") {
+                        location.reload();
+                    } else {
+                        var convert = Object.values(data[0]);
+                        var stt = convert[5];
+                        if (stt == "On") {
+                            $("#stt_On").show();
+                            $("#stt_Locked").hide();
+                        } else {
+                            $("#stt_On").hide();
+                            $("#stt_Locked").show();
+                        }
+                        $("#pagination").html("");
+                    }
+                },
+                error: function () {
+                    alert("Filter failt.!!!");
+                }
+            });
+        }
+
+        function editAdmin(id, permission) {
+            if (confirm("Do you want edit this account.?")) {
+
+                $("#ChangePasswordKeys_ID").val(id);
+                $("#ChangePositionKeys_ID").val(id);
+                $("#ChangePositionKeys_Old_Position").val(permission);
+
+                $("#edit").toggle();
+            }
+        }
+
+        function editYourselfAdmin(id) {
+            if (confirm("Do you want change your password.?")) {
+
+                $("#ChangeYourSelfAdminPassKeys_ID").val(id);
+
+                $("#editYourSelftAdmin").toggle();
+            }
+        }
+
+        function Permission(id) {
+
+            $("#idAdmin").val(id);
+
+            $.ajax({
+                url: "/Admin/GetValueChecked",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "ID": id
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (datas) {
+                    $("#showCheckbox").html('<div id="checkboxs"></div>');
+
+                    for (var i in datas) {
+                        var value = Object.values(datas[i]);
+                        if (value[2] == "true") {
+                            $("#checkboxs").append('<div id="checkboxss"><input type="checkbox" value="' + value[0] + '" name="IDCN" checked /><label class="size">' + value[1] + '</label></div>');
+                        } else {
+                            $("#checkboxs").append('<div id="checkboxss"><input type="checkbox" value="' + value[0] + '" name="IDCN" /><label class="size">' + value[1] + '</label></div>');
+                        }
+                    }
+                    $("#editPermissionAdmin").toggle();
+                },
+                error: function () {
+                    alert("Error send value checked");
+                }
+            });
+        }
+
+        function CreateAccount() {
+            if (confirm("Do you want create new account for admin")) {
+                $("#createNew").toggle();
+            }
+        }
+
+    </script>
+}
+
+
+

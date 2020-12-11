@@ -1,0 +1,142 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.StatisticalViewModel
+@{
+    ViewData["Title"] = "Loyal Customers";
+    Layout = "~/Views/Shared/_LayoutStatistical.cshtml";
+}
+<style>
+    .scroll_table {
+        overflow-x: hidden;
+        width: 1100px;
+        height: 400px;
+        border-radius: 10px;
+        border: 1px solid silver;
+    }
+
+    .sortrProduct {
+        width: 200px;
+    }
+    .filterProduct{
+        width:80px;
+    }
+
+    input[type="submit"] {
+        width: 100px;
+        background-color: darkslateblue;
+        color: whitesmoke;
+        box-shadow: 2px 0px 3px darkslateblue;
+    }
+
+    .sortProduct,
+    .filterProduct,
+    input[type="submit"] {
+        height: 32px;
+        margin-left: 10px;
+        font-size: 17px;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid silver;
+    }
+</style>
+
+<link rel="stylesheet" href="~/admin/css/turnover.css">
+
+<div class="TurnoverOfYear" id="TurnoverOfYear2">
+
+    <div style="margin-bottom:10px;">
+        <form asp-action="LoyalCustomers" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            Sort by
+            <select name="sort" class="sortProduct">
+                <option value="sort_1">Total Orders Ascending</option>
+                <option value="sort_2">Total Orders Decrease</option>
+                <option value="sort_3">Total Orders Success Ascending</option>
+                <option value="sort_4">Total Orders Success Decrease</option>
+                <option value="sort_5">Total Orders Cancel Ascending</option>
+                <option value="sort_6">Total Orders Cancel Decrease</option>
+                <option value="sort_7">Total Money Spend Ascending</option>
+                <option value="sort_8">Total Money Spend Decrease</option>
+                <option value="sort_9">Ratio Ascending</option>
+                <option value="sort_10">Ratio Decrease</option>
+            </select>
+            &ensp;|&ensp; Filter by month
+            <select name="month" class="filterProduct">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    if (i < 10)
+                    {
+                        var value = "0" + i;
+                        <option value="@value">@value</option>
+                    }
+                    else
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+            </select>
+            &ensp;|&ensp; Filter by year
+            <select name="year" class="filterProduct">
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+            </select>
+            <input type="submit" value="Filter" />
+        </form>
+    </div>
+
+    <div class="scroll_table">
+        <table class="TurnoverOfYear_Table" style="width:100%;">
+            <thead>
+                <tr>
+                    @if (Model.month == null && Model.year == null)
+                    {
+                        <th class="TurnoverOfYear_header" style="text-align:center;" colspan="9">Statistical Customers In 2020</th>
+                    }
+                    else
+                    {
+                        <th class="TurnoverOfYear_header" style="text-align:center;" colspan="9">Statistical Customers In @Model.month - @Model.year</th>
+                    }
+                </tr>
+                <tr>
+                    <th colspan="9">
+                        <hr />
+                    </th>
+                </tr>
+                <tr>
+                    <th class="TurnoverOfYear_header_title" style="text-align:center">ID</th>
+                    <th class="TurnoverOfYear_header_title">Customer</th>
+                    <th></th>
+                    <th class="TurnoverOfYear_header_title">Total Orders</th>
+                    <th class="TurnoverOfYear_header_title">Total Orders Success</th>
+                    <th class="TurnoverOfYear_header_title">Total Orders Cancel</th>
+                    <th class="TurnoverOfYear_header_title">Total Money Spend (VNĐ)</th>
+                    <th></th>
+                    <th class="TurnoverOfYear_header_title">Ratio (%)</th>
+                </tr>
+                <tr>
+                    <th colspan="9">
+                        <hr />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.StatisticalCustomers)
+                {
+                    <tr style="height:30px;">
+                        <th class="TurnoverOfYear_header_title" style="text-align:center">@item.ID_Custommer</th>
+                        <th class="TurnoverOfYear_header_title">@item.Name</th>
+                        <th></th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrder</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrderSuccess</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrderCancel</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalMoney.ToString("#,##0").Replace(",", ".")</th>
+                        <th></th>
+                        <th class="TurnoverOfYear_header_title">@item.ratio %</th>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "~/Views/Shared/_LayoutAccessDenied.cshtml";
+}
+
+<style>
+    .titleNameAccessDenied {
+        margin-top: 50px;
+    }
+
+    .titleNameAccessDenied,
+    .titleAccessDenied {
+        text-align: center;
+    }
+
+    .titleAccessDenied {
+        margin-top: 10px;
+    }
+
+    .bodyAccessDenied {
+        width: 350px;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+        .bodyAccessDenied img {
+            width: 300px;
+            height: 300px;
+        }
+
+        .bodyAccessDenied a {
+            font-size: 25px;
+            text-decoration: underline;
+            margin-left: 65px;
+        }
+
+            .bodyAccessDenied a:hover {
+                color: red;
+            }
+</style>
+
+<h3 class="titleNameAccessDenied">Sorry @TempData.Peek("username")</h3>
+<h3 class="titleAccessDenied">You don't have permission to access this page</h3>
+<div class="bodyAccessDenied">
+    <img src="~/img/accessdenied .jpg" alt="Error load image" /><br />
+    @if (TempData.Peek("admin") != null)
+    {
+        <a asp-controller="Admin" asp-action="Index">Go back Home Page</a>
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Index">Go back Home Page</a>
+    }
+</div>
+

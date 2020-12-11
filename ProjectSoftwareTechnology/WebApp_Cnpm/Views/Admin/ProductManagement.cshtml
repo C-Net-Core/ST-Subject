@@ -1,0 +1,203 @@
+﻿
+@using Application.DTOs;
+@model WebApp_Cnpm.ViewModels.AddProductsModel
+
+@{
+    ViewData["Title"] = "ProductManagerment";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/qlsp.css">
+<link rel="stylesheet" href="~/admin/css/index.css">\
+<link rel="stylesheet" href="~/css/PaginatedList.css" />
+<style>
+    .header {
+        background-image: linear-gradient(to bottom right, purple, black);
+    }
+
+    .title-header,
+    .ten-admin {
+        color: white;
+    }
+</style>
+
+<div class="main">
+    <div class="section">
+        <div class="them-sp">
+            <h2 style="text-align:left;width:350px;display:inline-block;margin-right:450px;">PRODUCTS MANAGEMENT</h2>
+            <button onclick="popup_themsp();" class="nutthem">Add Product</button>
+        </div>
+        <table id="table-sp">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Size</th>
+                    <th>Sale</th>
+                    <th>Action</th>
+                </tr>
+                @{
+                    IEnumerable<ProductDTO> products = ViewData["products"] as IEnumerable<ProductDTO>;
+                    foreach (var item in Model.Products)
+                    {
+                        SaleDTO sale = (ViewData["sales"] as IEnumerable<SaleDTO>)
+                                                                .Where(s => s.IDKM == item.IDKM)
+                                                                .FirstOrDefault();
+                        <tr class="thunghiem">
+                            <td>@item.IDSP</td>
+                            <td><img src="~/img/product/@item.Image" alt="anh1" style="width:110px;height:110px;"></td>
+                            <td><span class="hieuchinh1">@item.Name</span></td>
+                            <td>@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            <td>@item.Descrip</td>
+                            <td>@item.Amount</td>
+                            <td>@item.Size</td>
+                            <td>@sale.phantram%</td>
+                            <td>
+                                <button type="button" class="xoa_sp xoasp11" onclick="xoasp(@item.IDSP);">Delete</button>
+                                <button type="button" class="xoa_sp" onclick="popup_suasp(@item.IDSP);">Edit</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </thead>
+        </table>
+        @{
+            var prevDisabled = !Model.Products.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Products.HasNextPage ? "disabled" : "";
+        }
+        <div class="bodyPaginated">
+            <a class="btn btn-default tranformPage"
+               asp-route-pageIndex="@(Model.Products.PageIndex -1)">Previous</a>
+            @{
+                var dem = 1;
+                for (int i = 1; i <= products.Count(); i += 3)
+                {
+                    <a class="btn btn-default tranformPage"
+                       asp-route-pageIndex="@dem">@dem</a>
+                    dem++;
+                }
+            }
+            <a class="btn btn-default tranformPage"
+               asp-route-pageIndex="@(Model.Products.PageIndex +1)">Next</a>
+            @{
+                if (Model.Products.PageIndex <= 1)
+                {
+                    <h6 class="showPage">On page 1</h6>
+                }
+                else
+                {
+                    if (Model.Products.PageIndex >= dem)
+                    {
+                        <h6 class="showPage">On page @dem</h6>
+                    }
+                    else
+                    {
+                        <h6 class="showPage">On page @Model.Products.PageIndex</h6>
+                    }
+                }
+            }
+        </div>
+    </div>
+
+
+    <partial name="_PopupAddProducts" />
+    <partial name="_PopupEditProducts" />
+
+</div>
+@section Product{
+    <script>
+        function popup_themsp() {
+            if (confirm("Do you want add new product.?")) {
+                $("#themsp").toggle();
+
+                var idSale = 1;
+                for (var i = 0; i <= 90; i += 10) {
+                    $("#Keys_saleID").append("<option value='" + idSale + "'>" + i + "%</option>");
+                    idSale++;
+                }
+
+                for (var i = 32; i < 46; i++) {
+                    $("#Keys_size").append("<option value='" + i + "'>" + i + "</option>");
+                }
+            }
+        }
+        function back_popup_themsp() {
+            $("#themsp").hide();
+        }
+
+        //================================================
+
+        function popup_suasp(id) {
+            if (confirm("Do you want edit this product.?")) {
+ 
+                $.ajax({
+                    url: "/Admin/LoadDataEditProduct",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "idsp": id
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (item) {
+                        var getValue = Object.values(item);
+                        document.getElementById("EditKeys_productIDEdit").value = getValue[0];
+                        document.getElementById("EditKeys_nameEdit").value = getValue[1];
+                        document.getElementById("EditKeys_costEdit").value = getValue[2];
+                        document.getElementById("EditKeys_decriptionEdit").value = getValue[3];
+
+                        const img = document.createElement("img");
+                        img.src = "/img/product/"+getValue[4];
+                        img.height = 150;
+                        img.width = 150;
+                        document.getElementById("imageNewProductEdit").innerHTML = "";
+                        document.getElementById("imageNewProductEdit").appendChild(img);
+
+                        $("#suasp").toggle();
+                    },
+
+                    error: function () {
+                        alert("Remove failt.!!!");
+                    }
+                });
+            }
+        }
+        function back_popup_suasp() {
+            $("#suasp").hide();
+        }
+
+        // ===============================================
+
+        function xoasp(id) {
+            if (confirm("Do you want delete this product.?")) {
+                $.ajax({
+                    url: "/Admin/DeleteProduct",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "idsp": id
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (value) {
+                        alert(value);
+                        location.reload();
+                    },
+
+                    error: function () {
+                        alert("Remove failt.!!!");
+                    }
+                });
+            }
+        }
+
+    </script>
+}

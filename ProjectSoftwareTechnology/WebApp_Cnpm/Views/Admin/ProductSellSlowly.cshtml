@@ -1,0 +1,148 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.StatisticalViewModel
+@{
+    ViewData["Title"] = "Product Selling Slowly";
+    Layout = "~/Views/Shared/_LayoutStatistical.cshtml";
+}
+<style>
+    .scroll_table {
+        overflow-x: hidden;
+        height: 375px;
+        border: 1px solid black;
+        width: 400px;
+        border-radius: 10px;
+        border: 1px solid silver;
+        display: inline-block;
+    }
+
+    .filterProduct {
+        width: 80px;
+        height: 32px;
+        margin-left: 10px;
+        font-size: 17px;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid silver;
+    }
+</style>
+
+<link rel="stylesheet" href="~/admin/css/turnover.css">
+@{
+    var totalProduct = Model.TopSoldProducts_Greater.Count();
+    var totalProductSold = Model.countProductSold;
+    var remain = totalProduct - totalProductSold;
+}
+<div class="TurnoverOfYear" id="TurnoverOfYear2">
+    <div class="scroll_table">
+        <table class="TurnoverOfYear_Table" style="width:100%;">
+            <thead>
+                <tr>
+                    @if (Model.month == "")
+                    {
+                    <th class="TurnoverOfYear_header" style="text-align:center;" colspan="4">List Product Sell Slowly In @Model.year</th>
+                    }
+                    else
+                    {
+                <th class="TurnoverOfYear_header" style="text-align:center;" colspan="4">List Product Sell Slowly In @Model.month - @Model.year</th>
+                    }
+                </tr>
+                <tr>
+                    <th colspan="4">
+                        <hr />
+                    </th>
+                </tr>
+                <tr>
+                    <th class="TurnoverOfYear_header_title" style="text-align:center">No</th>
+                    <th class="TurnoverOfYear_header_title">Name Product</th>
+                    <th></th>
+                    <th class="TurnoverOfYear_header_title">Sold</th>
+                </tr>
+                <tr>
+                    <th colspan="4">
+                        <hr />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.TopSoldProducts_Greater)
+                {
+                    <tr>
+                        <th class="TurnoverOfYear_header_title" style="text-align:center">@item.ID_Product</th>
+                        <th class="TurnoverOfYear_header_title">@item.Name_Product</th>
+                        <th></th>
+                        @if (@item.count_ProductSold == 0)
+                        {
+                            <th style="color:red;">@item.count_ProductSold</th>
+                        }
+                        else
+                        {
+                            <th>@item.count_ProductSold</th>
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="TurnoverOfYear_Describe">
+        <div class="note">
+            @if (Model.month == "")
+            {
+                <h4 class="note_title">Product Statistics In @Model.year</h4>
+            }
+            else
+            {
+                <h4 class="note_title">Product Statistics In @Model.month - @Model.year</h4>
+            }
+            <hr />
+            <div class="general">
+                <h3 class="general_title">Total Product:</h3>
+                <h3 class="general_total" style="color:red;">@totalProduct products</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Total Product Has Been Sold:</h3>
+                <h3 class="general_total">@Model.countProductSold products</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Total Product Remain:</h3>
+                <h3 class="general_total" style="color:darkblue;">@remain products</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title" style="color:green;">
+                    Total money product has been sold:
+                </h3>
+                <h3 class="general_total" style="color:green;">@Model.countMoney_ProductSold.ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <form asp-controller="Admin" asp-action="ProductSellSlowly" method="post" enctype="multipart/form-data">
+                    Filter by month
+                    <select name="month" class="filterProduct" id="filter_byMonth">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            if (i < 10)
+                            {
+                                var value = "0" + i;
+                                <option value="@value">@value</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                    &ensp;Filter by month
+                    <select name="year" class="filterProduct" id="filter_byYear">
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <input class="filterProduct" type="submit" value="Filter" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

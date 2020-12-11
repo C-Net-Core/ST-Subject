@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Login</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="checkout spad" style="border:1px solid black;">
+    <div class="container">
+        <div class="checkout__form">
+            <form action="/Home/CheckLogin" method="post">
+                <div style="margin-left:470px;">
+                    <span>USERNAME</span>
+                    <input type="text" name="uid" placeholder="Enter your user" />
+
+                    <span>PASSWORD</span>
+                    <input type="password" name="pwd" placeholder="Enter your password" />
+
+                    <input type="submit" name="ok" value="SIGN IN" /><br />
+                </div>
+                <div class="login_user">
+                    <a asp-controller="Home" asp-action="Register" style="color: blueviolet;">&ensp;Register ></a><br />
+                    <a asp-controller="Home" asp-action="ForgotPassword" style="color: red;text-decoration:underline;">Forgot password ></a><br /><br />
+                    <a href="/author/google-login" style="margin-left:10px;"><img src="~/img/signin/gplus-icons-btn.png" alt="Sigin with Google+" title="Sigin with Google+" /></a><br /><br />
+                    <a href="/author/facebook-login" style="margin-left:10px;"><img src="~/img/signin/fb-icon-btn.png" alt="Sigin with Facebook" title="Sigin with Facebook" /></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Login{
+    <script>
+
+        //$("#ok").click(function () {
+        //    var uid = $("#user").val();
+        //    var pass = $("#password").val();
+
+        //    if (uid == "" || pass == "") {
+        //        alert("Vui lòng nhập đầy đủ thông tin!!!");
+        //    } else {
+        //        var form = new FormData();
+        //        form.append("uid", uid);
+        //        form.append("pass", pass);
+        //        $.ajax({
+        //            url: "/Home/ActionLogin",
+        //            type: "POST",
+        //            contentType: false,
+        //            processData: false,
+        //            data: form,
+        //            //data: JSON.stringify({
+        //            //    "UID": uid,
+        //            //    "PW": pass
+        //            //}),
+        //            success: function (value) {
+        //                alert(value);
+        //            },
+        //            error: function () {
+        //                alert("Login failt.!!!");
+        //            }
+        //        });
+        //    }
+        //});
+
+        //=============================================
+
+        var body = $("html, body");
+        body.animate({ scrollTop: 720 });
+    </script>
+}

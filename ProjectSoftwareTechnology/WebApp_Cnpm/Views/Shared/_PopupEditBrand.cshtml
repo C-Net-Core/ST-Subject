@@ -1,0 +1,38 @@
+﻿
+@using Application.DTOs;
+
+
+@model WebApp_Cnpm.ViewModels.ProductTypeViewModel
+
+<div class="popup-themsp" id="sualoaisp">
+    <form asp-action="EditBrand" enctype="multipart/form-data">
+        <div class="popup-themsp__content" style="height:200px;">
+            <div class="popup-themsp__title">Edit Brand</div>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Name Brand</div>
+            </div>
+            <div class="popup-themsp-right">
+                
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.EditBrandKeys.ID" hidden/>
+                    <input asp-for="@Model.EditBrandKeys.Name" />
+                </div>
+                <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="EditBrand();"/>
+                <span onclick="back_popup_sualoaisp();" class="back">x</span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+    function EditBrand() {
+        var name = $("#EditBrandKeys_Name").val();
+
+        if (name == "") {
+            alert("Please enter enough infomation of this brand.");
+        }
+    }
+
+</script>

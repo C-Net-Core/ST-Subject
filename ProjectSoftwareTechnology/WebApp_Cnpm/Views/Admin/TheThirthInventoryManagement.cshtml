@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "TheThirthInventoryManagement";
+    Layout = "~/Views/Shared/_LayoutInventory.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.InventoryViewModel
+
+<div id="tab3" class="tab_inventory_show">
+    <h3>Total quantity of products out of stock</h3>
+    <h4 style="margin-left:20px;">To Deleiver: <span style="color:red;">@Model.AllDeliver </span>products</h4>
+    <table id="table-sp">
+        <tr>
+            <th>NO</th>
+            <th>Name</th>
+            <th>Sold</th>
+            <th>Remain</th>
+        </tr>
+        @foreach (var item in Model.Delivereds)
+        {
+            <tr class="thunghiem">
+                <td>@item.ID</td>
+                <td><span class="hieuchinh1">@item.Name</span></td>
+                <td>@item.Sold</td>
+                @{
+                    if (item.Remain == 0)
+                    {
+                        <td style="color:red;">@item.Remain</td>
+                    }
+                    else
+                    {
+                        <td>@item.Remain</td>
+                    }
+
+                }
+            </tr>
+        }
+    </table>
+
+    <div class="bodyPaginated">
+        <a class="btn btn-default tranformPage"
+           asp-route-pageIndex="@(Model.Delivereds.PageIndex -1)">Previous</a>
+        @{
+            var demTab1 = 1;
+            for (int i = 1; i <= Model.productDTOs.Count(); i += 3)
+            {
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@demTab1">@demTab1</a>
+                demTab1++;
+            }
+        }
+        <a class="btn btn-default tranformPage"
+           asp-route-pageIndex="@(Model.Delivereds.PageIndex +1)">Next</a>
+        @{
+            if (Model.Delivereds.PageIndex <= 1)
+            {
+                <h6 class="showPage">On page 1</h6>
+            }
+            else
+            {
+                if (Model.Delivereds.PageIndex >= demTab1)
+                {
+                    <h6 class="showPage">On page @demTab1</h6>
+                }
+                else
+                {
+                    <h6 class="showPage">On page @Model.Delivereds.PageIndex</h6>
+                }
+            }
+        }
+    </div>
+
+</div>
+

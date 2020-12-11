@@ -1,0 +1,109 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .popup_edit_permission {
+        height: 300px;
+    }
+
+    .permission {
+        margin-top: 10px;
+    }
+
+    #titlePopup {
+        text-align: center;
+        color: red;
+        margin-top: 10px;
+        font-weight: 500;
+    }
+
+    #checkboxss {
+        border: 1px solid silver;
+        width: 35%;
+        display: inline-block;
+        margin-top: 15px;
+        margin-left: 65px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .size, input[type="checkbox"] {
+        font-size: 20px;
+    }
+
+    .savechangesPermission {
+        position: relative;
+        margin-top: 225px;
+        left: 75%;
+        padding: 8px;
+        background-color: greenyellow;
+        color: black;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        width: 115px;
+        outline: none;
+    }
+
+        .savechangesPermission:hover {
+            font-weight: 600;
+        }
+</style>
+
+<div class="popup-themsp" id="editPermissionAdmin">
+    <div class="popup-themsp__content popup_edit_permission">
+        <div id="titlePopup">
+            <h3>Change permission</h3>
+        </div>
+        <input id="idAdmin" hidden />
+        <div class="popup-themsp__content permission" id="showCheckbox"></div>
+        <button class="savechangesPermission" type="submit" onclick="SaveChangesPermission();">Save Changes</button>
+        <span onclick="back_popup_permission();" class="back">x</span>
+    </div>
+
+</div>
+
+<script>
+
+    function back_popup_permission() {
+        $("#editPermissionAdmin").hide();
+    }
+
+    function SaveChangesPermission() {
+        var idAdmin = $("#idAdmin").val();
+        var arrCN = "";
+        var value = document.getElementsByName("IDCN");
+        for (var i = 0; i < value.length; i++) {
+            if (value[i].checked) {
+                arrCN += (value[i].value) + " ";
+            }
+        }
+
+        $.ajax({
+            url: "/Admin/ChangePermission",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "ID_Admin": idAdmin,
+                "ID_CN": arrCN
+            }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (mess) {
+                alert(mess);
+                location.reload();
+
+                //for (var i in mess) {
+                //    var data = Object.values(mess[i]);
+                //    alert(data);
+                //}
+            },
+            error: function () {
+                alert("Error send value checked");
+            }
+        });
+    }
+
+</script>

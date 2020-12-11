@@ -1,0 +1,9 @@
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\bin\Debug\netstandard2.0\Domain.deps.json
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\bin\Debug\netstandard2.0\Domain.dll
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.csprojAssemblyReference.cache
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfoInputs.cache
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\bin\Debug\netstandard2.0\Domain.pdb
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.dll
+D:\Documents\Visual Studio 2019\ASP.NET Core\WebApp_Cnpm - Copy\Domain\obj\Debug\netstandard2.0\Domain.pdb

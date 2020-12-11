@@ -1,0 +1,334 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.StatisticalViewModel
+
+@{
+    ViewData["Title"] = "Turnover";
+    Layout = "~/Views/Shared/_LayoutStatistical.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/turnover.css">
+
+<div class="TurnoverOfYear" id="TurnoverOfYear1">
+    <table class="TurnoverOfYear_Table" title="Table Turnover Of Year @Model.year">
+        <thead>
+            <tr>
+                <th class="TurnoverOfYear_header" style="text-align:center;" colspan="4">Turnover of year @Model.TurnoverOfYears[0].Year</th>
+            </tr>
+            <tr>
+                <th colspan="4">
+                    <hr />
+                </th>
+            </tr>
+            <tr>
+                <th class="TurnoverOfYear_header_title" style="text-align:center">Month</th>
+                <th class="TurnoverOfYear_header_title">Revenue (vnđ)</th>
+                <th></th>
+                <th class="TurnoverOfYear_header_title">Alert</th>
+            </tr>
+            <tr>
+                <th colspan="4">
+                    <hr />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TurnoverOfYears)
+            {
+                <tr>
+                    <th class="TurnoverOfYear_header_title" style="text-align:center">@item.Month</th>
+                    <th class="TurnoverOfYear_header_title">
+                        @int.Parse(item.Turnover).ToString("#,##0").Replace(",", ".")
+                    </th>
+                    <th></th>
+                    <th style="color:red;">@item.Message</th>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <div class="TurnoverOfYear_Describe">
+        <div class="note">
+            <h4 class="note_title">Note</h4>
+            <hr />
+            <div class="note_detail">
+                <div>
+                    <div class="notmettargets">_</div>
+                    <h3 class="info_note">Not met targets</h3>@*Chưa đạt chỉ tiêu doanh thu*@
+                </div>
+
+                <div>
+                    <div class="notmettargets"></div>
+                    <h3 class="info_note">Achieve targets</h3> @*Đạt chỉ tiêu doanh thu*@
+                </div>
+            </div>
+            <div class="filter_TurnoverOfYear">
+                <form asp-action="Turnover" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    Filter by year
+                    <select name="year" id="filter_TurnoverOfYear" title="Filter Turnover By Year">
+                        @for (int i = 2017; i <= int.Parse(DateTime.Now.Year.ToString()); i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <input type="submit" value="Filter" style="padding:3px;border-radius:5px;"/>
+                </form>
+            </div>
+        </div>
+        <br />
+        <div class="note">
+            <h4 class="note_title">General Statistics In @Model.year</h4>
+            <hr />
+            <div class="general">
+                <h3 class="general_title">Total Revenue:</h3>     @*Tổng doanh thu*@
+                <h3 class="general_total">@Model.countTotalStatistics.ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Highest Revenue:</h3>     @*Tháng có doanh thu cao nhất*@
+                <h3 class="general_total">@int.Parse(Model.HighestRevenue.Turnover).ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Lowest Revenue:</h3>     @*Tháng có doanh thu thấp nhất*@
+                <h3 class="general_total">@int.Parse(Model.LowestRevenue.Turnover).ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title" title="The total number of months has a turnover greater than 1 million" style="color:green;">
+                    The total months has a turnover greater than 1 million: @*Số tháng hoàn thành chỉ tiêu > 1 triệu*@
+                </h3>
+                <h3 class="general_total" style="color:green;">@Model.countTurnoverGreater1Milion month</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title" title="The total number of months has a turnover less than 1 million" style="color:red;">
+                    The total months has a turnover less than 1 million:  @*số tháng chưa hoàn thành chỉ tiêu < 1 triệu*@
+                </h3>
+                <h3 class="general_total" style="color:red;">@Model.countTurnoverLess1Milion month</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="TurnoverOfYear3" id="TurnoverOfYear" hidden>
+    <table class="TurnoverOfYear_Table" title="Table Turnover Of Year @Model.TurnoverOfYears[0].Year">
+        <thead>
+            <tr>
+                <th class="TurnoverOfYear_header" style="text-align:center;" colspan="4">Turnover of year @Model.TurnoverOfYears[0].Year</th>
+            </tr>
+            <tr>
+                <th colspan="4">
+                    <hr />
+                </th>
+            </tr>
+            <tr>
+                <th class="TurnoverOfYear_header_title" style="text-align:center">Month</th>
+                <th class="TurnoverOfYear_header_title">Revenue (vnđ)</th>
+                <th></th>
+                <th class="TurnoverOfYear_header_title">Alert</th>
+            </tr>
+            <tr>
+                <th colspan="4">
+                    <hr />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TurnoverOfYears)
+            {
+                <tr>
+                    <th class="TurnoverOfYear_header_title" style="text-align:center">@item.Month</th>
+                    <th class="TurnoverOfYear_header_title">
+                        @int.Parse(item.Turnover).ToString("#,##0").Replace(",", ".")
+                    </th>
+                    <th></th>
+                    <th style="color:red;">@item.Message</th>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <div class="TurnoverOfYear_Describe">
+        <div class="note">
+            <h4 class="note_title">Note</h4>
+            <hr />
+            <div class="note_detail">
+                <div>
+                    <div class="notmettargets">_</div>
+                    <h3 class="info_note">Not met targets</h3>@*Chưa đạt chỉ tiêu doanh thu*@
+                </div>
+
+                <div>
+                    <div class="notmettargets"></div>
+                    <h3 class="info_note">Achieve targets</h3> @*Đạt chỉ tiêu doanh thu*@
+                </div>
+            </div>
+            <div class="filter_TurnoverOfYear">
+                Filter by year
+                <select id="filter_TurnoverOfYear" title="Filter Turnover By Year">
+                    @for (int i = 2017; i <= int.Parse(DateTime.Now.Year.ToString()); i++)
+                    {
+                        <option value="i">@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="note">
+            <h4 class="note_title">General Statistics @Model.TurnoverOfYears[0].Year</h4>
+            <hr />
+            <div class="general">
+                <h3 class="general_title">Total Revenue:</h3>     @*Tổng doanh thu*@
+                <h3 class="general_total">@Model.countTotalStatistics.ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Highest Revenue:</h3>     @*Tháng có doanh thu cao nhất*@
+                <h3 class="general_total">@int.Parse(Model.HighestRevenue.Turnover).ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title">Lowest Revenue:</h3>     @*Tháng có doanh thu thấp nhất*@
+                <h3 class="general_total">@int.Parse(Model.LowestRevenue.Turnover).ToString("#,##0").Replace(",", ".") vnđ</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title" title="The total number of months has a turnover greater than 1 million" style="color:green;">
+                    The total months has a turnover greater than 1 million: @*Số tháng hoàn thành chỉ tiêu > 1 triệu*@
+                </h3>
+                <h3 class="general_total" style="color:green;">@Model.countTurnoverGreater1Milion month</h3>
+            </div>
+            <div class="general">
+                <h3 class="general_title" title="The total number of months has a turnover less than 1 million" style="color:red;">
+                    The total months has a turnover less than 1 million:  @*số tháng chưa hoàn thành chỉ tiêu < 1 triệu*@
+                </h3>
+                <h3 class="general_total" style="color:red;">@Model.countTurnoverLess1Milion month</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div id="chart1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="chart2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="chart3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>*@
+
+@section Chart{
+    <script>
+        $(function () {
+            Highcharts.chart('chart1', {
+                title: {
+                    text: 'Revenue Statistics',
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Revenue (VNĐ)'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: 'vnđ'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: [{
+                    data: [12000000, 10900000, 21500000, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                }]
+            });
+        });
+        $(function () {
+            Highcharts.chart('chart2', {
+                title: {
+                    text: 'Revenue Statistics',
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Revenue (VNĐ)'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: 'vnđ'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: [{
+                    data: [12000000, 10900000, 21500000, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                }]
+            });
+        });
+        $(function () {
+            Highcharts.chart('chart3', {
+                title: {
+                    text: 'Revenue Statistics',
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Revenue (VNĐ)'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: 'vnđ'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: [{
+                    data: [12000000, 10900000, 21500000, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                }]
+            });
+        });
+    </script>
+}

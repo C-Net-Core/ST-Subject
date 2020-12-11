@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Confirm Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model WebApp_Cnpm.Models.NewRegister
+
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vatva Shop</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Comfirm Register</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div class="register-box" style="height:250px;">
+        <div class="register_form">
+            <input asp-for="@Model.user" hidden/>
+            <input asp-for="@Model.password" hidden/>
+            <input asp-for="@Model.address" hidden/>
+            <input asp-for="@Model.email" hidden/>
+            <input asp-for="@Model.code" hidden/>
+
+            <span>VERIFICATION CODE</span>
+            <input asp-for="verification" autofocus/>
+
+            <input type="submit" value="Confirm" onclick="Confirm()"/><br />
+            <div class="login_user">
+                <a style="color: red;text-decoration:underline;" href="javascript:SendAgain();">Send email again</a>&ensp;
+                <a asp-controller="Home" asp-action="Register" style="color: blueviolet;text-decoration:underline;">Back</a><br />
+                <a asp-controller="Home" asp-action="Login" style="color: blueviolet;">I am already a member ></a>
+            </div>
+        </div>
+    </div>
+
+@section RegisterConfirm{
+    <script type="text/javascript">
+
+        var email = $("#email").val();
+        alert("A verification code has been sent to the email " + email);
+
+        function SendAgain() {
+            location.reload();
+        }
+
+        function Confirm() {
+            var user = $("#user").val();
+            var password = $("#password").val();
+            var address = $("#address").val();
+            var code = $("#code").val();
+            var verification = $("#verification").val();
+            if (code != verification) {
+                alert("Verification code invalid.!!!");
+            } else {
+                $.ajax({
+                    url: "/Home/CheckRegister",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "user": user,
+                        "password": password,
+                        "address": address,
+                        "email": email
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (mess) {
+                        if (mess == "OK") {
+                            window.location.href = "/Home/RegisterSuccessful";
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("Register new account failt.!!!");
+                    }
+                });
+            }
+        }
+
+        var body = $("html, body");
+        body.animate({ scrollTop: 687 });
+    </script>
+}
+

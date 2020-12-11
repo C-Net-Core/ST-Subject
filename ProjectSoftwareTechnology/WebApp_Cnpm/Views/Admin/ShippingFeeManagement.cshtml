@@ -1,0 +1,174 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.ShippingFeeViewModel
+@{
+    ViewData["Title"] = "Shipping Fee Management";
+    Layout = "~/Views/Shared/_LayoutShippingFeeManagement.cshtml";
+}
+
+<link rel="stylesheet" href="~/admin/css/ship.css" type="text/css">
+
+<section class="region">
+    <div class="mienbac" onclick="EditFeeShip(@Model.Regions[3].IdRegion,@Model.Regions[3].FeeShip)">
+        <div class="left">
+            <h3 class="titleLeft">Shipping Fee</h3>
+            <h3 class="fee">@Model.Regions[3].FeeShip.ToString("#,##0").Replace(",", ".") vnđ</h3>
+        </div>
+
+        <div class="mid">
+            <h3 class="norland">NORLAND</h3>
+        </div>
+
+        <div class="right">
+            <h3 class="nameAmount">
+                Amount city:
+                <span class="amount"> @Model.demTPMienBac</span>
+            </h3>
+            <div class="cityBuild"></div>
+
+            <h3 class="nameAmount">
+                Amount ward:
+                <span class="amount"> @Model.demQuanMienBac</span>
+            </h3>
+            <div class="wardBuild"></div>
+
+            <h3 class="listCity">- List of cities available in the region:</h3>
+
+            <h3 class="showListCity" style="margin-bottom:10px;"> @Model.dsMienBac</h3>
+        </div>
+    </div>
+
+    <div class="mientrung" onclick="EditFeeShip(@Model.Regions[2].IdRegion,@Model.Regions[2].FeeShip)">
+        <div class="left">
+            <h3 class="titleLeft">Shipping Fee</h3>
+            <h3 class="fee">@Model.Regions[2].FeeShip.ToString("#,##0").Replace(",", ".") vnđ</h3>
+        </div>
+
+        <div class="mid">
+            <h3 class="central">CENTRAL</h3>
+        </div>
+
+        <div class="right">
+            <h3 class="nameAmount">
+                Amount city:
+                <span class="amount"> @Model.demTPMienTrung</span>
+            </h3>
+            <div class="cityBuild"></div>
+
+            <h3 class="nameAmount">
+                Amount ward:
+                <span class="amount"> @Model.demQuanMienTrung</span>
+            </h3>
+            <div class="wardBuild"></div>
+
+            <h3 class="listCity">- List of cities available in the region:</h3>
+            <h3 class="showListCity"> @Model.dsMienTrung</h3>
+        </div>
+    </div>
+
+    <div class="miennam" onclick="EditFeeShip(@Model.Regions[1].IdRegion,@Model.Regions[1].FeeShip)">
+        <div class="left">
+            <h3 class="titleLeft">Shipping Fee</h3>
+            <h3 class="fee">@Model.Regions[1].FeeShip.ToString("#,##0").Replace(",", ".") vnđ</h3>
+        </div>
+
+        <div class="mid">
+            <h3 class="southern">SOUTHERN</h3>
+        </div>
+
+        <div class="right">
+            <h3 class="nameAmount">
+                Amount city:
+                <span class="amount"> @Model.demTPMienNam</span>
+            </h3>
+            <div class="cityBuild"></div>
+
+            <h3 class="nameAmount">
+                Amount ward:
+                <span class="amount"> @Model.demQuanMienNam</span>
+            </h3>
+            <div class="wardBuild"></div>
+
+            <h3 class="listCity">- List of cities available in the region:</h3>
+            <h3 class="showListCity"> @Model.dsMienNam </h3>
+        </div>
+    </div>
+
+    <div class="popup-themsp" id="thaydoiphiship">
+        <div class="popup-themsp__content" style="height:200px;">
+            <div class="popup-themsp__title">Change Fee Shipping</div>
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">New feeship   </div>
+            </div>
+            <div class="popup-themsp-right">
+
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.idRegion"hidden/>
+                    <input asp-for="@Model.feeship" autofocus/>
+                </div>
+                <input class="popup-themsp__btn" type="submit" value="Xác nhận" onclick="Change();" />
+                <span onclick="back();" class="back">x</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+@section ShippingFee{
+    <script>
+
+        function EditFeeShip(id,feeship) {
+            if (confirm("Do you want change fee shipping this region")) {
+                $("#idRegion").val(id);
+                $("#feeship").val(feeship);
+                $("#thaydoiphiship").toggle();
+            }
+        }
+
+        function back(){
+            $("#thaydoiphiship").toggle();
+        }
+
+        function Change() {
+            var Regex = new RegExp("^(?=.*[a-z])");
+            var id = $("#idRegion").val();
+            var fee = $("#feeship").val();
+            var is_num = Number(fee);
+            if (fee == "") {
+                alert("Please enter shipping fee.!!!");
+            } else {
+                if (Regex.test(is_num) == true) {
+                    alert("Shipping fee is only number. Please enter again.!!!");
+                    $("#feeship").val("");
+                } else {
+                    if (is_num < 1000) {
+                        alert("Shipping fee must bigger than 1000 vnđ. Please enter again.!!!");
+                        $("#feeship").val("");
+                    } else {
+                        $.ajax({
+                            url: "/Admin/ChangeShippingFee",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({
+                                "idRegion": id,
+                                "feeship": fee
+                            }),
+                            async: true,
+                            processData: false,
+                            cache: false,
+                            success: function (mess) {
+                                alert(mess);
+                                location.reload();
+                            },
+                            error: function () {
+                                alert("Change position failt.!!!");
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+    </script>
+}

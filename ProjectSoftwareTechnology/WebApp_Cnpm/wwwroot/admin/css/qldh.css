@@ -1,0 +1,37 @@
+.xoa_sp,.sua_sp,.xem_ct{
+	height: 33px;
+	width: 65px;
+	background: white;
+	color: gray;
+	border: 1px solid #C8CED3;
+	margin: 3px;
+	transition: 0.3s;
+}
+.xoa_sp:hover,.sua_sp:hover,.xem_ct:hover{
+	background: #2F353A ;
+	border: 1px solid #2F353A;
+	color: white;
+}
+/*#table-dm tbody td:first-child,th:first-child{
+	width: 66px;
+	text-align: right;
+}*/
+.them-sp{
+	text-align: right;
+	margin-right: 20px;
+}
+.them-sp button{
+	background: white;
+	border: 2px solid  #C8CED3;
+	color: #2F353A;
+	padding:10px;
+	transition: 0.3s
+}
+.them-sp button:hover{
+	background: #2F353A ;
+	border: 2px solid #2F353A;
+	color: white;
+}
+#maudoi{
+	background-color: white;
+}

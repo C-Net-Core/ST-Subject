@@ -1,0 +1,110 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.AccountViewModel
+
+<style>
+    .popup_edit {
+        height: 180px;
+    }
+
+    #titlePopup {
+        text-align: center;
+        color: red;
+        margin-top: 10px;
+        font-weight: 500;
+    }
+
+    .formChangePasswordYourselfAdmin {
+        margin-top: 50px;
+    }
+
+    .input_right {
+        margin-top: -50px;
+    }
+
+    .verifyForm {
+        position: relative;
+        margin-top: 20px;
+        left: 50%;
+    }
+</style>
+
+<div class="popup-themsp" id="editYourSelftAdmin">
+    <div class="popup-themsp__content popup_edit">
+        <div id="titlePopup">
+            <h3>Change your password</h3>
+        </div>
+
+        <div class="popup-themsp__content formChangePasswordYourselfAdmin" id="formChangePassword">
+            <div class="popup-themsp-left">
+                <div class="popup-themsp-left__label">Enter new password</div>
+                <div class="popup-themsp-left__label">Re-enter new password</div>
+            </div>
+            <div class="popup-themsp-right input_right">
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangeYourSelfAdminPassKeys.ID" hidden />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangeYourSelfAdminPassKeys.New_Pass" autofocus />
+                </div>
+                <div class="popup-themsp-left__input">
+                    <input asp-for="@Model.ChangeYourSelfAdminPassKeys.ReNew_Pass" />
+                </div>
+                <input class="popup-themsp__btn verifyForm" type="submit" value="Change" onclick="ChangePasswordYourSelftAdmin()" />
+            </div>
+        </div>
+
+        <span onclick="back_popup_editAdmin();" class="back">x</span>
+    </div>
+
+</div>
+
+<script>
+    function back_popup_editAdmin() {
+        $("#editYourSelftAdmin").hide();
+    }
+
+    function ChangePasswordYourSelftAdmin() {
+        var id          =   $("#ChangeYourSelfAdminPassKeys_ID").val();
+        var newPass     =   $("#ChangeYourSelfAdminPassKeys_New_Pass").val();
+        var reNewPass = $("#ChangeYourSelfAdminPassKeys_ReNew_Pass").val();
+
+        //var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#\$%\^&\*])(?=.{8,})");
+        var Regex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{8,})");
+
+        if (newPass == "" || reNewPass == "") {
+            alert("Please enter it completely.!!!");
+        } else {
+            if (newPass != reNewPass) {
+                alert("Password do not match. Please enter again.!!!");
+                $("#ChangeYourSelfAdminPassKeys_New_Pass").val("");
+                $("#ChangeYourSelfAdminPassKeys_ReNew_Pass").val("");
+            } else {
+                if (Regex.test(newPass) == false) {
+                    alert("Password might have minimum 8 character, 1 number and 1 lowercase letter.");
+                } else {
+                    $.ajax({
+                        url: "/Admin/ChangePasswordYourSelfAdmin",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "ID": id,
+                            "New_Pass": newPass
+                        }),
+                        async: true,
+                        processData: false,
+                        cache: false,
+                        success: function (mess) {
+                            alert(mess);
+                            location.reload();
+                        },
+                        error: function () {
+                            alert("Change your password failt.!!!");
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+</script>

@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    /*overflow: auto;*/
+    font-size: 16px;
+    font-family: opensans;
+    outline: none;
+}
+
+.wrapper{
+    background: linear-gradient(to right,#609dff,#1eccfc);
+    height: 100vh;
+    position: relative;
+}
+.content{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	height: 420px;
+	width: 800px;
+	background: white;
+	border-radius: 25px;
+}
+.content-left{
+	float: left;
+	width: 358px;
+	height: 100%;
+	background: url(../image/admin.png);
+	background-repeat: no-repeat;
+	background-position: center right;
+	background-size: 230px;
+}
+.content-right{
+	position: absolute;
+	float: right;
+	width: auto;
+	height: auto;
+	top: 100px;
+	right: 150px;
+}
+h1{
+	font-size: 20px;
+	text-align: center;
+	color: gray;
+}
+input{
+	width: 210px;
+	height: 35px;
+	margin: 5px;
+	border: 0;
+}
+	input[type='text'], input[type='password'] {
+		border-bottom: 2px solid #D8D8D8;
+		font-size: 14px;
+	}
+		input[type='text'], input[type='password']:first-of-type {
+			margin-top: 35px;
+			/*display: block;*/
+		}
+
+		input[type="submit"]:hover {
+			background: #2E7116;
+		}

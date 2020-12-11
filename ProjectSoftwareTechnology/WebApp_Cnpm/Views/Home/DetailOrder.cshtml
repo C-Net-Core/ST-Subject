@@ -1,0 +1,164 @@
+﻿
+@using Application.DTOs;
+
+@{
+    ViewBag.Title = "DetailOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<DetailOrders>
+
+<style>
+    .title {
+        color: #666666;
+    }
+
+    .nameCustommer {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 15px;
+        margin-left: 15px;
+        width: 80%;
+    }
+
+    .phoneCustommer {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 8px;
+        margin-left: 15px;
+        width: 80%;
+    }
+
+    .addCustommer {
+        color: #666666;
+        margin-bottom: 10px;
+        margin-top: 12px;
+        margin-left: 15px;
+        width: 80%;
+        font-size: 18px;
+    }
+
+    .iconHomeAddress {
+        background-color: red;
+        color: white;
+        text-align: center;
+        border-radius: 50px;
+        font-size: 12px;
+    }
+
+    .statusOrder {
+        float: right;
+        font-size: 15px;
+        font-style: italic;
+    }
+
+    .priceOrder {
+        font-weight: 700;
+        margin-top: 10px;
+    }
+</style>
+
+<!--Breadcrumb Section Begin-->
+<section class="breadcrumb-section set-bg" data-setbg="/img/banner_title.gif" style="background-position:center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vatva Shop</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Detail Your Order</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container" style="margin-top:-130px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            @{
+                                var SubTotal = 0;
+                                if (Model.Count() == 1)
+                                {
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:30px;padding:5px;border-radius:10px;">
+                                        <h5 class="title">Ship & bill to</h5>
+                                        <h4 class="nameCustommer">@Model[0].NameCustomer</h4>
+                                        <h4 class="phoneCustommer">@Model[0].PhoneCustomer</h4>
+                                        <h4 class="addCustommer">
+                                            <span class="iconHomeAddress"> &ensp; HOME &ensp;</span>
+                                            @Model[0].AddressCustomer
+                                        </h4>
+                                    </div>
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:10px;padding:5px;border-radius:10px;">
+                                        <h5 class="title">Order #@Model[0].ID_PayOrder</h5>
+                                        <h6 style="color:#666666;font-weight:500;font-size:14px;">Place on @Model[0].DateOrder</h6>
+                                        <div style="margin-top:-20px;">
+                                            <img src="~/img/product/@Model[0].ImageProduct" style="width:150px;height:150px;">
+                                            <div style="width:580px;float:right;">
+                                                <h3>@Model[0].NameProduct<span class="statusOrder">@Model[0].StatusOrder</span></h3>
+                                                <h5 class="priceOrder">@int.Parse(Model[0].PriceProduct).ToString("#,##0").Replace(",", ".") VNĐ</h5>
+                                                <h6 style="font-weight:600;margin-top: 10px;color:#666666;">Size: @Model[0].SizeProduct &ensp; x @Model[0].AmountProduct</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:10px;padding:15px;border-radius:10px;">
+                                        <h5>Subtotal<span style="float:right;">@Model[0].SubTotal.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                        <h5 style="margin-top:10px;">Shipping Fee<span style="float:right;">@Model[0].FeeShip.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                        <h5 style="margin-top:15px;font-weight:600;font-size:20px;">Total<span style="float:right;color:red;">@Model[0].Total.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:30px;padding:5px;border-radius:10px;">
+                                        <h5 class="title">Ship & bill to</h5>
+                                        <h4 class="nameCustommer">@Model[0].NameCustomer</h4>
+                                        <h4 class="phoneCustommer">@Model[0].PhoneCustomer</h4>
+                                        <h4 class="addCustommer">
+                                            <span class="iconHomeAddress"> &ensp; HOME &ensp;</span>
+                                            @Model[0].AddressCustomer
+                                        </h4>
+                                    </div>
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:10px;padding:5px;border-radius:10px;">
+                                        <h5 class="title">Order #@Model[0].ID_PayOrder</h5>
+                                        <h6 style="color:#666666;font-weight:500;font-size:14px;margin-bottom:-5px">Place on @Model[0].DateOrder</h6>
+                                        @foreach (DetailOrders items in Model)
+                                        {
+                                            <div style="margin-top:10px;">
+                                                <img src="~/img/product/@items.ImageProduct" style="width:150px;height:150px;">
+                                                <div style="width:580px;float:right;">
+                                                    <h3>@items.NameProduct<span class="statusOrder">@items.StatusOrder</span></h3>
+                                                    <h5 class="priceOrder">@int.Parse(items.PriceProduct).ToString("#,##0").Replace(",", ".") VNĐ</h5>
+                                                    <h6 style="font-weight:600;margin-top: 10px;color:#666666;">Size: @items.SizeProduct &ensp; x @items.AmountProduct</h6>
+                                                </div>
+                                            </div>
+                                            SubTotal += items.SubTotal;
+                                        }
+                                    </div>
+                                    <div class="product__details__tab__desc" style="width:750px;margin:auto;border:0.5px solid #EEEEEE;margin-top:10px;padding:15px;border-radius:10px;">
+                                        <h5>Subtotal<span style="float:right;">@SubTotal.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                        <h5 style="margin-top:10px;">Shipping Fee<span style="float:right;">@Model[0].FeeShip.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                        <h5 style="margin-top:15px;font-weight:600;font-size:20px;">Total<span style="float:right;color:red;">@Model[0].Total.ToString("#,##0").Replace(",", ".") VNĐ</span></h5>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section DetailOrder{
+    <script>
+
+        var body = $("html, body");
+        body.animate({ scrollTop: 687 });
+    </script>
+}

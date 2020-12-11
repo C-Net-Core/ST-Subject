@@ -1,0 +1,284 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.OrderManagement
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/admin/css/qlsp.css">
+    <link rel="stylesheet" href="~/admin/css/index.css">
+    <link rel="stylesheet" href="~/css/PaginatedList.css" />
+    <link rel="stylesheet" href="~/admin/css/ok.css" />
+
+    <!-- Css -->
+    <link rel="stylesheet" href="~/fontawesome-free-5.11.2-web/css/all.css" type="text/css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+        .header {
+            background-image: linear-gradient(to bottom right, purple, black);
+        }
+
+        .title-header,
+        .ten-admin {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a class="title-header" asp-controller="Home" asp-action="Index" style="text-decoration:none;">VATVA SHOP</a>
+            <div class="nav-right">
+                <img src="~/admin/image/icon/user-icon.svg">
+                <div class="ten-admin">Hi admin: @ViewData["sayHiAdmin"]</div>
+                <a asp-controller="Admin" asp-action="Logout">
+                    <div style="font-size: 15px;margin:17px 8px 0 8px;color:white;">Logout</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="left-menu">
+            <style>
+            </style>
+            <a class="left-menu__item active font" asp-controller="Admin" asp-action="Index"><span id="speed-icon"></span>Home</a>
+            @{
+                List<RoleMethod> roleMethods = JsonConvert.DeserializeObject<List<RoleMethod>>(TempData.Peek("roleMethod").ToString());
+                foreach (var item in roleMethods)
+                {
+                    <a class="left-menu__item font" asp-controller="Admin" asp-action="@item.Method">
+                        @item.Role
+                    </a>
+                }
+
+            }
+            @*<a class="left-menu__item font" asp-controller="Admin" asp-action="ProductManagement"><span class="icon" id="product-icon"></span>Product Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="ProductTypeManagement"><span class="icon" id="product-icon"></span>Brand Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="TheFirstInventoryManagement"><span class="icon" id="product-icon"></span>Inventory Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="TheFirstStatus"><span class="icon" id="product-icon"></span>Order Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="UserManagement"><span class="icon" id="user-icon"></span>Account Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="ShippingFeeManagement"><span class="icon" id="user-icon"></span>Shipping Fee Management</a>
+                <a class="left-menu__item font" asp-controller="Admin" asp-action="Turnover"><span class="icon" id="user-icon"></span>Statistical</a>*@
+            <div class="copyright">© Vatva Shop</div>
+        </div>
+
+        <section class="inventory">
+            <h3>ORDER MANAGEMENT</h3>
+
+            <div class="inventory_product">
+                <div class="inventory_product_title">
+                    <h4>@Model.count_Watting_For_Progressing</h4>
+                </div>
+                <div class="inventory_product_amount">
+                    <h4><a asp-controller="Admin" asp-action="TheFirstStatus">Watting for processing</a></h4>
+                </div>
+            </div>
+
+            <div class="inventory_product">
+                <div class="inventory_product_title">
+                    <h4>@Model.count_To_Ship</h4>
+                </div>
+                <div class="inventory_product_amount">
+                    <h4><a asp-controller="Admin" asp-action="TheSecondStatus">To Ship</a></h4>
+                </div>
+            </div>
+
+            <div class="inventory_product">
+                <div class="inventory_product_title">
+                    <h4>@Model.count_To_Pay</h4>
+                </div>
+                <div class="inventory_product_amount">
+                    <h4><a asp-controller="Admin" asp-action="TheThirthStatus">To Pay</a></h4>
+                </div>
+            </div>
+
+            <div class="inventory_product">
+                <div class="inventory_product_title">
+                    <h4>@Model.count_Delivered</h4>
+                </div>
+                <div class="inventory_product_amount">
+                    <h4><a asp-controller="Admin" asp-action="TheFourthStatus">To Deliver</a></h4>
+                </div>
+            </div>
+
+            <div class="inventory_product">
+                <div class="inventory_product_title">
+                    <h4>@Model.count_Cancel</h4>
+                </div>
+                <div class="inventory_product_amount">
+                    <h4><a asp-controller="Admin" asp-action="TheFifthStatus">To Cancel</a></h4>
+                </div>
+            </div>
+            <hr />
+        </section>
+
+
+        <section class="show_tab_inventory">
+            @RenderBody()
+        </section>
+
+    </div>
+
+    <div id='chat'>
+        <p id="titleMessage" align='center'><i class="fa fa-commenting-o" aria-hidden="true"></i> Messenger</p>
+        <div id='messages' style="height:213px;"></div>
+        <div id='form'>
+            <input type='text' autocomplete='off' id='message' autofocus placeholder="Press the enter key to send the message"
+                   style="width:98%;height:27px;
+                            display:inline-block;
+                            font-size: 13px;
+                            border: 1px solid black;
+                            border-radius: 5px;
+                            margin-bottom: 5px;
+                            color:black;">
+        </div>
+    </div>
+
+</body>
+</html>
+
+<!-- Js Plugins -->
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery-ui.min.js"></script>
+<script src="~/js/jquery.slicknav.js"></script>
+<script src="~/js/mixitup.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/main.js"></script>
+
+
+@RenderSection("TheFirstStatus", required: false)
+@RenderSection("TheSecondStatus", required: false)
+@RenderSection("TheThirthStatus", required: false)
+@RenderSection("TheFourthStatus", required: false)
+@RenderSection("TheFifthStatus", required: false)
+
+
+<style>
+    #chat {
+        position: fixed;
+        bottom: 5px;
+        right: 20px;
+        width: 250px;
+        height: 30px;
+        cursor: pointer;
+        z-index: 100;
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid #1DA1F2;
+    }
+
+        #chat p {
+            line-height: 30px;
+            background-color: #1DA1F2;
+            color: black;
+            border-radius: 10px;
+        }
+
+    #messages {
+        overflow-y: scroll;
+        padding: 10px;
+        display: inline-block;
+        width: 90%;
+    }
+
+    #msg {
+        color: black;
+        background-color: #DDDDDD;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        width: 90%;
+        float: right;
+        text-align: left;
+    }
+
+    #msg_ad {
+        color: darkblue;
+        background-image: linear-gradient(to right,white, pink);
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        width: 90%;
+        float: right;
+        text-align: right;
+    }
+</style>
+
+<script>
+    $("#titleMessage").css("margin-top", "0px");
+    var hide = 0;
+    $("#chat p").click(function () {
+        hide++;
+        if (hide % 2 != 0) {
+            $("#chat").css("height", "300px");
+            $("#titleMessage").css("margin-top", "-8px");
+            $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+        } else {
+            $("#chat").css("height", "30px");
+            $("#titleMessage").css("margin-top", "0px");
+        }
+    });
+
+    $('#message').keypress(function (event) {
+        var x = event.which || event.keyCode;
+        if (x == 13) {
+            var text = $('#message').val();
+            if (text != "") {
+                $.ajax({
+                    url: "/Admin/SendMessage",
+                    dataType: "json",
+                    type: "post",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "message": text
+                    }),
+                    success: function () {
+                        $("#message").val("");
+                        $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+                    },
+                    error: function () {
+                        alert("Không thể gửi tin.!");
+                    }
+                });
+            }
+        }
+    });
+
+    setTimeout(checkMessage(), 0);
+
+    function checkMessage() {
+        var amountElement = $(".msg").length;
+
+        $.ajax({
+            url: "/Admin/CheckMessage",
+            dataType: "json",
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "amountElement": amountElement
+            }),
+            success: function (htmlData) {
+                if (htmlData != "false") {
+                    $('#messages').append(htmlData);
+                    $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+                    setTimeout(checkMessage(), 0);
+                } else {
+                    setTimeout(checkMessage(), 0);
+                }
+            },
+            error: function () {
+                alert("Không thể tải tin nhắn mới lên.!");
+            }
+        });
+    }
+
+</script>

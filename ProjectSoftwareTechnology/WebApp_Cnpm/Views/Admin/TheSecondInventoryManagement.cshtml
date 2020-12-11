@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "TheSecondInventoryManagement";
+    Layout = "~/Views/Shared/_LayoutInventory.cshtml";
+}
+
+@using Application.DTOs;
+@model WebApp_Cnpm.ViewModels.AdminViewModels.InventoryViewModel
+
+<div class="tab_inventory_show" id="tab2">
+    <h3>Total existing products in stock</h3>
+    <table id="table-sp">
+        <tr>
+            <th>NO</th>
+            <th>Name</th>
+            <th>Cost</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Size</th>
+            <th>Sale</th>
+        </tr>
+        @foreach (var item in Model.AllProduct)
+        {
+            SaleDTO s = Model.Sales.Where(s => s.IDKM == item.IDKM).FirstOrDefault();
+            <tr class="thunghiem">
+                <td>@item.IDSP</td>
+                <td><span class="hieuchinh1">@item.Name</span></td>
+                <td>@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</td>
+                <td>@item.Descrip</td>
+                <td>@item.Amount</td>
+                <td>@item.Size</td>
+                <td>@s.phantram%</td>
+            </tr>
+        }
+    </table>
+
+    <div class="bodyPaginated">
+        <a class="btn btn-default tranformPage"
+           asp-route-pageIndex="@(Model.AllProduct.PageIndex -1)">Previous</a>
+        @{
+            var dem = 1;
+            for (int i = 1; i <= Model.productDTOs.Count(); i += 3)
+            {
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@dem">@dem</a>
+                dem++;
+            }
+        }
+        <a class="btn btn-default tranformPage"
+           asp-route-pageIndex="@(Model.AllProduct.PageIndex +1)">Next</a>
+        @{
+            if (Model.AllProduct.PageIndex <= 1)
+            {
+                <h6 class="showPage">On page 1</h6>
+            }
+            else
+            {
+                if (Model.AllProduct.PageIndex >= dem)
+                {
+                    <h6 class="showPage">On page @dem</h6>
+                }
+                else
+                {
+                    <h6 class="showPage">On page @Model.AllProduct.PageIndex</h6>
+                }
+            }
+        }
+    </div>
+</div>
+

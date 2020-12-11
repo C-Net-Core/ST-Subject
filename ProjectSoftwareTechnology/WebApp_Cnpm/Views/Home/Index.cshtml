@@ -1,0 +1,299 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+@using Application.DTOs;
+
+<section class="categories">
+    <div class="container">
+        <div class="row">
+            <div class="categories__slider owl-carousel">
+                <div class="col-lg-3">
+                    <div class="categories__item set-bg" style="border-radius:10%;background-size:cover;background-position:center;" data-setbg="/img/categories/cat-1.jpg">
+                    </div>
+                    <h5 class="mode_text" style="text-align:center;">Nike Air Max 90</h5>
+                </div>
+                <div class="col-lg-3">
+                    <div class="categories__item set-bg" style="border-radius:10%;background-size:cover;background-position:center;" data-setbg="/img/categories/cat-2.jpg">
+                    </div>
+                    <h5 class="mode_text" style="text-align:center;">Nike Air Force 1</h5>
+                </div>
+                <div class="col-lg-3">
+                    <div class="categories__item set-bg" style="border-radius:10%;background-size:cover;background-position:center;" data-setbg="/img/categories/cat-3.jpg">
+                    </div>
+                    <h5 class="mode_text" style="text-align:center;">Nike SF AF1</h5>
+                </div>
+                <div class="col-lg-3">
+                    <div class="categories__item set-bg" style="border-radius:10%;background-size:cover;background-position:center;" data-setbg="/img/categories/cat-4.jpg">
+                    </div>
+                    <h5 class="mode_text" style="text-align:center;">Nike Uptempo</h5>
+                </div>
+                <div class="col-lg-3">
+                    <div class="categories__item set-bg" style="border-radius:10%;background-size:cover;background-position:center;" data-setbg="/img/categories/cat-5.jpg">
+                    </div>
+                    <h5 class="mode_text" style="text-align:center;">Asics Lyte V</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+<!-- Featured Section Begin -->
+<section class="featured spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2 class="mode_text">Featured Product</h2>
+                </div>
+                <div class="featured__controls">
+                    <ul>
+                        <li class="active mode_text" data-filter="*">All</li>
+                        <li class="mode_text" data-filter=".nike">Nike</li>
+                        <li class="mode_text" data-filter=".asics">ASICS</li>
+                        <li class="mode_text" data-filter=".adidas">Adidas</li>
+                        <li class="mode_text" data-filter=".fila">Fila</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row featured__filter">
+            @{
+                IEnumerable<ProductDTO> sp = ViewData["product"] as IEnumerable<ProductDTO>;
+                var dem = 0;
+                foreach (ProductDTO item in sp)
+                {
+                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                        .Where(s => s.IDKM == item.IDKM)
+                                                        .FirstOrDefault();
+                    if (dem < 8)
+                    {
+                        string tam = "";
+                        ProductTypeDTO lsp = (ViewData["productType"] as IEnumerable<ProductTypeDTO>)
+                                                                        .Where(m => m.IDLSP == item.IDLSP)
+                                                                        .FirstOrDefault();
+                        tam += lsp.Filter + " ";
+                        <div class="col-lg-3 col-md-4 col-sm-6 mix oranges @tam">
+                            <div class="featured__item">
+                                <div class="featured__item__pic set-bg" data-setbg="/img/product/@item.Image">
+                                    <ul class="featured__item__pic__hover">
+                                        <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@item.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="featured__item__text">
+                                    <h6><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP">@item.Name</a></h6>
+                                    @{
+                                        if (sale.IDKM == 1)
+                                        {
+                                            <h5 class="mode_text">@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</h5>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</section>
+<!-- Featured Section End -->
+<!-- Banner Begin -->
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="~/img/banner/banner_1_gif.gif" alt="" style="width:700px;height:300px;">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="~/img/banner/banner_2_gif.gif" alt="" style="width:700px;height:300px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
+<!-- Latest Product Section Begin -->
+<section class="latest-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4 class="mode_text">Latest Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            @{
+                                dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (dem < 3)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%;height:120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            @{ dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (dem > 2 && dem < 6)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%; height: 120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4 class="mode_text">Top Rated Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            @{ dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                            .Where(s => s.IDKM == item.IDKM)
+                                                                            .FirstOrDefault();
+                                    if (dem < 3)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%;height:120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+
+                        <div class="latest-prdouct__slider__item">
+                            @{
+                                dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (dem < 3)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%; height: 120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4 class="mode_text">Review Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            @{
+                                dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (dem < 3)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%; height: 120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            @{
+                                dem = 0;
+                                foreach (ProductDTO item in sp)
+                                {
+                                    SaleDTO sale = (ViewData["sale"] as IEnumerable<SaleDTO>)
+                                                                        .Where(s => s.IDKM == item.IDKM)
+                                                                        .FirstOrDefault();
+                                    if (dem < 3)
+                                    {
+                                        <a asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP" class="latest-product__item">
+                                            <div class="latest-product__item__pic" style="width: 48%; height: 120%;">
+                                                <img src="~/img/product/@item.Image" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 class="mode_text">@item.Name</h6>
+                                                <span class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</span>
+                                            </div>
+                                        </a>
+                                    }
+                                    dem++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Detail{
+    <script>
+        var body = $("html, body");
+        body.animate({ scrollTop: 0 });
+    </script>
+}

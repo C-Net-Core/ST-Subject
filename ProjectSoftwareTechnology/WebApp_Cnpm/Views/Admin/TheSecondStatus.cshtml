@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewData["Title"] = "The Second Status";
+    Layout = "~/Views/Shared/_LayoutOrderManagement.cshtml";
+}
+
+@model WebApp_Cnpm.ViewModels.AdminViewModels.OrderManagement
+
+<div id="tab1" class="tab_inventory_show">
+    <h3>STATUS : To Ship</h3>
+
+    <form action="/Admin/TheSecondStatus" style="margin-left:20px;width:840px;display:inline-block;">
+        <input type="text" name="searchID" style="outline-style:none;" />
+        <input type="submit" value="Search" />
+    </form>
+
+    @{
+        if (Model.getOrderPage.Count() == 0)
+        {
+            <h1 style="text-align:center;color:red;">Don't have order to ship</h1>
+            <h4 style="text-align:center"><a asp-action="TheSecondStatus">Back</a></h4>
+        }
+        else
+        {
+            <table id="table-sp">
+                <tr>
+                    <th>NO</th>
+                    <th>Receiver</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Date Confirm</th>
+                    <th>Status Pay</th>
+                    <th>Note</th>
+                    <th>Total (VNĐ)</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var item in Model.getOrderPage)
+                {
+                    <tr class="thunghiem">
+                        <td>
+                            <a class="link_InfoOrder" asp-controller="Admin" asp-action="InfoOrder" asp-route-ID_Order="@item.ID">@item.ID</a>
+                        </td>
+                        <td>
+                            <a class="link_InfoOrder" asp-controller="Admin" asp-action="InfoOrder" asp-route-ID_Order="@item.ID">
+                                <span class="hieuchinh1">@item.Receiver</span>
+                            </a>
+                        </td>
+                        <td>@item.Address</td>
+                        <td>@item.Phone</td>
+                        <td>@item.DateConfirm</td>
+                        <td>@item.StatusPay</td>
+                        <td>@item.Note</td>
+                        <td>@int.Parse(item.Total).ToString("#,##0").Replace(",", ".")</td>
+                        <td>
+                            <button type="button" class="nhapkho" onclick="ToDeliver(@item.ID)">To Deliver</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <div class="bodyPaginated">
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.getOrderPage.PageIndex -1)">Previous</a>
+                @{
+                    var dem = 1;
+                    for (int i = 1; i <= Model.countAllOrder; i += 3)
+                    {
+                        <a class="btn btn-default tranformPage"
+                           asp-route-pageIndex="@dem">@dem</a>
+                        dem++;
+                    }
+                }
+                <a class="btn btn-default tranformPage"
+                   asp-route-pageIndex="@(Model.getOrderPage.PageIndex +1)">Next</a>
+                @{
+                    if (Model.getOrderPage.PageIndex <= 1)
+                    {
+                        <h6 class="showPage">On page 1</h6>
+                    }
+                    else
+                    {
+                        if (Model.getOrderPage.PageIndex >= dem)
+                        {
+                            <h6 class="showPage">On page @dem</h6>
+                        }
+                        else
+                        {
+                            <h6 class="showPage">On page @Model.getOrderPage.PageIndex</h6>
+                        }
+                    }
+                }
+            </div>
+        }
+    }
+
+</div>
+
+@section TheSecondStatus{
+    <script>
+
+        function ToDeliver(id) {
+            if (confirm("Do you want to deliver this order.?")) {
+                $.ajax({
+                    url: "/Admin/ToDeliver",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "ID_Order": id
+                    }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (message) {
+                        alert(message);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Confirm failt.!!!");
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+

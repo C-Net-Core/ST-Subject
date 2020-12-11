@@ -1,0 +1,138 @@
+﻿
+.region {
+    height: 91vh;
+    margin-top: 50px;
+    width: 85.8%;
+    margin-left: 195px;
+}
+
+.mienbac,
+.mientrung,
+.miennam {
+    height: 30vh;
+    cursor: pointer;
+    border-left: 1px solid silver;
+    transition: all 0.4s;
+}
+
+.miennam {
+    border-bottom: 1px solid silver;
+}
+
+.mienbac,
+.mientrung {
+    border-bottom: 1px solid silver;
+}
+
+    .mienbac:hover,
+    .mientrung:hover,
+    .miennam:hover {
+        background-color: rgba(248,248,255,1);
+    }
+
+/*============================================================*/
+
+.left {
+    width: 20%;
+    display: inline-block;
+    height: 30vh;
+    float: left;
+    border-right: 1px solid silver;
+    border-radius: 35px;
+}
+
+.titleLeft {
+    text-align: center;
+    margin-left: 15px;
+    margin-top: 90px;
+    font-weight: 400;
+    font-size: 18px;
+    color: rgb(198,199,180);
+    letter-spacing: 1.3px;
+}
+
+.fee {
+    margin-left: 15px;
+    font-size: 15px;
+    text-align: center;
+    margin-top: -10px;
+    letter-spacing: 1.2px;
+    color: rgba(128,0,128,0.8);
+}
+
+.mid {
+    width: 32%;
+    height: 30vh;
+    display: inline-block;
+    border-right: 1px solid silver;
+    border-radius: 35px;
+}
+
+.norland,
+.central,
+.southern {
+    font-size: 42px;
+    text-align: center;
+    margin-top: 80px;
+    letter-spacing: 3px;
+    transition:all 0.5s;
+}
+.norland:hover,
+.central:hover,
+.southern:hover {
+    font-size: 45px;
+}
+.norland {
+    color: rgba(141,238,40,1);
+}
+.central {
+    color: rgba(205,55,0,2);
+}
+.southern {
+    color: rgba(85,50,255,1);
+}
+
+.right {
+    width: 42%;
+    display: inline-block;
+    float: right;
+    height: 30vh;
+    border-right: 1px solid silver;
+    border-radius: 35px;
+    margin-left: 20px;
+    height: 30vh;
+}
+
+.nameAmount {
+    font-size: 16px;
+    font-weight: 500;
+    width: 50%;
+    margin-top: 8px;
+}
+
+.amount {
+    color: red;
+}
+
+.cityBuild {
+    border: none;
+    width: 65%;
+    height: 10px;
+    background-color: rgba(106,90,205,1);
+}
+
+.wardBuild {
+    border: none;
+    width: 45%;
+    height: 10px;
+    background-color: rgba(238,44,44,1);
+    margin-top: -5px;
+}
+
+.listCity,
+.showListCity{
+    font-weight:500;
+    font-size:16px;
+}
+
+/*=============================================================*/

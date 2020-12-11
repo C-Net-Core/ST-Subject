@@ -1,0 +1,149 @@
+﻿
+@model WebApp_Cnpm.ViewModels.AdminViewModels.StatisticalViewModel
+@{
+    ViewData["Title"] = "Order Statistics";
+    Layout = "~/Views/Shared/_LayoutStatistical.cshtml";
+}
+<style>
+    .scroll_table {
+        overflow-x: hidden;
+        width: 1100px;
+        height: 400px;
+        border-radius: 10px;
+        border: 1px solid silver;
+    }
+
+    .sortrProduct {
+        width: 200px;
+    }
+
+    .filterProduct {
+        width: 80px;
+    }
+
+    input[type="submit"] {
+        width: 100px;
+        background-color: darkslateblue;
+        color: whitesmoke;
+        box-shadow: 2px 0px 3px darkslateblue;
+    }
+
+    .sortProduct,
+    .filterProduct,
+    input[type="submit"] {
+        height: 32px;
+        margin-left: 10px;
+        font-size: 17px;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid silver;
+    }
+    .summary {
+        text-align: right;
+        font-weight: 500;
+        font-size: 19px;
+        color:red;
+    }
+</style>
+
+<link rel="stylesheet" href="~/admin/css/turnover.css">
+
+<div class="TurnoverOfYear" id="TurnoverOfYear2">
+
+    <div style="margin-bottom:10px;">
+        <form asp-action="OrderStatistics" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            Sort by
+            <select name="sort" class="sortProduct">
+                <option value="asc">Total Orders Ascending</option>
+                <option value="dec">Total Orders Decrease</option>
+            </select>
+            &ensp;|&ensp; Filter by year
+            <select name="year" class="filterProduct">
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+            </select>
+            <input type="submit" value="Filter" />
+        </form>
+    </div>
+
+    <div class="scroll_table">
+        <table class="TurnoverOfYear_Table" style="width:100%;">
+            <thead>
+                <tr>
+                    @if (Model.year == null)
+                    {
+                    <th class="TurnoverOfYear_header" style="text-align:center;" colspan="8">Orders Statistical In 2020</th>
+                    }
+                    else
+                    {
+                <th class="TurnoverOfYear_header" style="text-align:center;" colspan="8">Orders Statistical In @Model.year</th>
+                    }
+                </tr>
+                <tr>
+                    <th colspan="8">
+                        <hr />
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3"></th>
+                    <th class="summary" colspan="2">Total Orders:</th>
+                    <th class="summary" colspan="3">@Model.totalOrders order</th>
+                </tr>
+                <tr>
+                    <th colspan="3"></th>
+                    <th class="summary" colspan="2">Total Orders Successes:</th>
+                    <th class="summary" colspan="3">@Model.totalOrderSuccesses order</th>
+                </tr>
+                <tr>
+                    <th colspan="3"></th>
+                    <th class="summary" colspan="2">Total Orders Cancel:</th>
+                    <th class="summary" colspan="3">@Model.totalOrderCancel order</th>
+                </tr>
+                <tr>
+                    <th colspan="3"></th>
+                    <th class="summary" colspan="2">Total Revenues:</th>
+                    <th class="summary" colspan="3">@Model.totalMoney.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                </tr>
+                <tr>
+                    <th colspan="8">
+                        <hr />
+                    </th>
+                </tr>
+                <tr>
+                    <th class="TurnoverOfYear_header_title" style="text-align:center">MONTH</th>
+                    <th class="TurnoverOfYear_header_title">Total Orders</th>
+                    <th class="TurnoverOfYear_header_title">Total Orders Success</th>
+                    <th class="TurnoverOfYear_header_title">Total Orders Cancel</th>
+                    <th class="TurnoverOfYear_header_title">Revenue (VNĐ)</th>
+                    <th></th>
+                    <th class="TurnoverOfYear_header_title">Ratio Success (%)</th>
+                    <th class="TurnoverOfYear_header_title">Ratio Cancel (%)</th>
+                </tr>
+                <tr>
+                    <th colspan="8">
+                        <hr />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.StatisticalOrders)
+                {
+                    <tr style="height:30px;">
+                        <th class="TurnoverOfYear_header_title" style="text-align:center">@item.idMonth</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrders</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrderSuccesses</th>
+                        <th class="TurnoverOfYear_header_title">@item.totalOrderCancels</th>
+                        <th class="TurnoverOfYear_header_title">@int.Parse(item.totalMoney).ToString("#,##0").Replace(",", ".")</th>
+                        <th></th>
+                        <th class="TurnoverOfYear_header_title">@item.ratioSuccess %</th>
+                        <th class="TurnoverOfYear_header_title">@item.ratioCancel %</th>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

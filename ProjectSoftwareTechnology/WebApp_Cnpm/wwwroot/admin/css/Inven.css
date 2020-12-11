@@ -1,0 +1,100 @@
+﻿
+.inventory {
+    margin-top: 75px;
+    width: 1140px;
+    margin-left: 200px;
+    margin-bottom: 30px;
+}
+
+    .inventory h3 {
+        font-size: 24px;
+        text-align: center;
+        color: white;
+        width: 400px;
+        border-radius: 100px;
+        background-color: mediumblue;
+        padding: 10px;
+        letter-spacing: 1px;
+        margin-left: 50px;
+        box-shadow: 4px 0px 4px blue;
+    }
+
+.inventory_product {
+    width: 300px;
+    height: 130px;
+    margin-left: 55px;
+    margin-top: 15px;
+    display: inline-block;
+    border-radius: 10px;
+    background-color: aqua;
+    box-shadow: 5px 0px 5px green;
+    margin-bottom: 30px;
+}
+
+.inventory_product_title {
+    background-color: greenyellow;
+    width: 120px;
+    height: 130px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 10px;
+}
+
+    .inventory_product_title h4 {
+        margin-top: 50px;
+        width: 120px;
+        height: 50px;
+        font-size: 40px;
+        letter-spacing: 1px;
+    }
+
+.inventory_product_amount {
+    width: 175px;
+    height: 130px;
+    display: inline-block;
+    text-align: center;
+}
+
+    .inventory_product_amount h4 a {
+        text-decoration: none;
+        color: black;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+        .inventory_product_amount h4 a:hover {
+            color: red;
+        }
+.show_tab_inventory {
+    width: 1140px;
+    margin-left: 200px;
+    margin-top:-10px;
+}
+
+.tab_inventory_show h3,
+.tab_inventory_hide h3{
+    text-align: center;
+    font-size:18px;
+    font-weight:500;
+}
+
+.tab_inventory_hide {
+    display: none;
+}
+
+.nhapkho{
+    width:110px;
+    height:30px;
+    border-radius:10px;
+    background-color:white;
+    font-size:15px;
+    color:black;
+    cursor:pointer;
+    outline:none;
+    transition:all 0.5s;
+}
+.nhapkho:hover{
+    background-color:black;
+    color:white;
+}

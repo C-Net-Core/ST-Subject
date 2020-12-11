@@ -1,0 +1,529 @@
+﻿
+@using Application.DTOs;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/fontawesome-free-5.11.2-web/css/all.css">
+
+    <!-- Fotorama -->
+    @*<link rel="stylesheet" href="~/lib/fotorama/fotorama.min.css" />
+        <script type="text/javascript" src="~/lib/fotorama/fotorama.min.js"></script>*@
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/css/site.css" type="text/css">
+    <link rel="stylesheet" href="~/css/userAuthorization.css" type="text/css">
+
+</head>
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Humberger Begin -->
+    @{
+        if (TempData["authorAdmin"] != null)
+        {
+            <div style="height:25px;background-color:black;text-align:center;">
+                <a asp-action="Index" asp-controller="Admin" style="color:#EEEEEE;">Administration</a>
+            </div>
+        }
+    }
+    <div class="humberger__menu__overlay"></div>
+    <div class="humberger__menu__wrapper">
+        <div class="humberger__menu__logo">
+            <a asp-controller="Home" asp-action="Index"><img src="~/img/logo.png" alt=""></a>
+        </div>
+        <div class="humberger__menu__cart">
+            <ul>
+                <li><a asp-controller="Home" asp-action="Cart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+            </ul>
+            @{
+                int total_cart = (int)ViewData["total_cart"];
+                <div class="header__cart__price">item: <span>@total_cart.ToString("#,##0").Replace(",", ".") VNĐ</span></div>
+            }
+        </div>
+        <div class="header__top__right__auth">
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-user"></i> Login</a>
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li class="active"><a href="/Home/Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="Shop_Grid">Shop</a></li>
+                <li>
+                    <a>Pages</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a asp-controller="Home" asp-action="Cart">Shoping Cart</a></li>
+                        <li><a asp-controller="Home" asp-action="Checkout">Check Out</a></li>
+                    </ul>
+                </li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="humberger__menu__contact">
+            <ul>
+                <li><i class="fa fa-envelope"></i> tava2020@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Humberger End -->
+    <!-- Header Section Begin -->
+    <header>
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li class="mode_text"><i class="fa fa-envelope mode_text"></i> tava2020@gmail.com</li>
+                                <li class="mode_text">Quality is above all excellent</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__auth">
+                                @{
+                                    String result = (String)ViewData["SESSION_LOGIN"];
+                                    if (result != "null")
+                                    {
+                                        <h6 class="mode_username" style="color:darkblue;">Welcome customer: @ViewData["COOKIE_USER"]</h6>
+                                        <a class="mode_text" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="mode_text" asp-controller="Home" asp-action="Login">Login</a>
+                                        <a class="mode_text" asp-controller="Home" asp-action="Register">Register</a>
+                                    }
+                                }
+                            <input id="changeMode" type="button" value="Dark" onclick="changeMode()"
+                                   style="
+                                        position:fixed;margin-top:20px;font-size:19px;width:48px;
+                                        word-wrap: break-word;height:50px;margin-left:53px;
+                                        border-bottom-left-radius:15px;
+                                        border-top-left-radius:15px;border:0.5px;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a asp-controller="Home" asp-action="Index"><img src="~/img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a class="mode_text" asp-controller="Home" asp-action="Shop_Grid">Shopping</a></li>
+                            <li><a class="mode_text" asp-controller="Home" asp-action="History">History</a> </li>
+                            <li><a class="mode_text" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="Cart"><i class="fa fa-shopping-bag mode_text"></i> <span>@ViewData["dem_item_cart"]</span></a></li>
+                        </ul>
+                        @{
+                            if (total_cart == 0)
+                            {
+
+                                <div class="header__cart__price mode_cost">item: <span class="mode_cost">0 VNĐ</span></div>
+                            }
+                            else
+                            {
+                                <div class="header__cart__price mode_cost">item: <span class="mode_cost">@total_cart.ToString("#,##0").Replace(",", ".") VNĐ</span></div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>All Brands</span>
+                        </div>
+                        <ul>
+                            @{
+                                IEnumerable<ProductTypeDTO> list = ViewData["productType"] as IEnumerable<ProductTypeDTO>;
+                                foreach (ProductTypeDTO item in list)
+                                {
+                                    <li class="hover_li"><a class="mode_text" asp-controller="Home" asp-action="Shop_Grid" asp-route-id="@item.IDLSP" style="margin-left:50px;font-size:18px;">@item.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5 class="mode_text">0707130406</h5>
+                                <span class="mode_text">Support 24/7 time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__item set-bg mode_set_bg"
+                         style="height:379px;background-position:center;background-size:cover;
+                                    box-shadow: 10px 10px 15px 5px black;"
+                         data-setbg="/img/hero/banner_gif.gif">
+                        <div class="hero__text">
+                            <span style="color:white;">All Brands</span>
+                            <h2 style="color:white;">Genuine<br />100% Brand</h2>
+                            <p style="color:whitesmoke;">Free Pickup and Delivery Available</p>
+                            <a href="/Home/Shop_Grid" class="primary-btn">SHOPPING NOW</a>
+                        </div>
+                    </div>
+                    @*<div class="fotorama" data-autoplay="3000"
+                             style="height:379px;background-position:center;background-size:cover;">
+                            <img src="~/img/hero/banner.jpg" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+    @* ============================================================================================================================================= *@
+    @* ============================================================================================================================================= *@
+
+    @RenderBody()
+
+
+    @* ============================================================================================================================================= *@
+    @* ============================================================================================================================================= *@
+
+    <!-- Footer Section Begin -->
+    <footer style="background-color:whitesmoke; padding-top:20px;width:100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                            <a asp-controller="Home" asp-action="Index"><img src="~/img/logo.png" alt=""></a>
+                        </div>
+                        <ul>
+                            <li class="mode_text">Address: District 5, Ho Chi Minh City</li>
+                            <li class="mode_text">Phone: 0707130406</li>
+                            <li class="mode_text">Email: vatva2020@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                    <div class="footer__widget">
+                        <h6 class="mode_text">Useful Links</h6>
+                        <ul>
+                            <li><a class="mode_text">About Us</a></li>
+                            <li><a class="mode_text">About Our Shop</a></li>
+                            <li><a class="mode_text">Secure Shopping</a></li>
+                            <li><a class="mode_text">Delivery infomation</a></li>
+                            <li><a class="mode_text">Privacy Policy</a></li>
+                            <li><a class="mode_text">Our Sitemap</a></li>
+                        </ul>
+                        <ul>
+                            <li><a class="mode_text">Who We Are</a></li>
+                            <li><a class="mode_text">Our Services</a></li>
+                            <li><a class="mode_text">Projects</a></li>
+                            <li><a class="mode_text">Contact</a></li>
+                            <li><a class="mode_text">Innovation</a></li>
+                            <li><a class="mode_text">Testimonials</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                        <h6 class="mode_text">Join Our Newsletter Now</h6>
+                        <p class="mode_text">Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#">
+                            <input class="mode_text" type="text" placeholder="Enter your mail">
+                            <button type="submit" class="site-btn mode_footer_sub">Subscribe</button>
+                        </form>
+                        <div class="footer__widget__social">
+                            <a><i class="fa fa-facebook"></i></a>
+                            <a><i class="fa fa-instagram"></i></a>
+                            <a><i class="fa fa-twitter"></i></a>
+                            <a><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer__copyright">
+                        <div class="footer__copyright__text">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                &copy;
+                                <script>document.write(new Date().getFullYear());</script> Software Technology | Designed <i class="fa fa-heart mode_text" aria-hidden="true"></i> by <a target="_blank" class="mode_text">Huynh Quang Vinh</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                        <div class="footer__copyright__payment"><img src="~/img/payment-item.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id='chat'>
+        <p align='center'><i class="fa fa-commenting-o" aria-hidden="true"></i> Messenger</p>
+        <div id='messages' style="height:213px;"></div>
+        <div id='form'>
+            <input type='text' autocomplete='off' id='message' autofocus placeholder="Press the enter key to send the message"
+                   style="width:100%;height:30px;
+                            display:inline-block;
+                            font-size: 13px;
+                            border: 1px solid black;
+                            border-radius: 5px;
+                            margin-bottom: 5px;
+                            color:black;">
+        </div>
+    </div>
+
+    <!-- Footer Section End -->
+    <!-- Js Plugins -->
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/jquery.slicknav.js"></script>
+    <script src="~/js/mixitup.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Login", required: false)
+    @RenderSection("Grid", required: false)
+    @RenderSection("Detail", required: false)
+    @RenderSection("Cart", required: false)
+    @RenderSection("Contact", required: false)
+    @RenderSection("Checkout", required: false)
+    @RenderSection("History", required: false)
+    @RenderSection("DetailOrder", required: false)
+    @RenderSection("Register", required: false)
+    @RenderSection("RegisterConfirm", required: false)
+
+    <style>
+        #chat {
+            position: fixed;
+            bottom: 5px;
+            right: 20px;
+            width: 250px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 100;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #1DA1F2;
+        }
+
+            #chat p {
+                line-height: 30px;
+                background-color: #1DA1F2;
+                color: black;
+                border-radius: 10px;
+            }
+
+        #messages {
+            overflow-y: scroll;
+            padding: 10px;
+            display: inline-block;
+            width: 99%;
+        }
+
+        #msg {
+            color: darkblue;
+            background-image: linear-gradient(to right,white, pink);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            width: 100%;
+            float: right;
+            text-align: right;
+        }
+
+        #msg_ad {
+            color: black;
+            background-color: #DDDDDD;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            width: 100%;
+            float: right;
+            text-align: left;
+        }
+    </style>
+
+    <script>
+
+        window.setTimeout("CheckCart()", 1000);
+        function CheckCart() {
+            $.ajax({
+                url: "/Home/CheckCart",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "Total": @ViewData["total_cart"]
+                }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (result) {
+                    if (result == "failt") {
+                        location.reload();
+                    } else {
+                        setTimeout("CheckCart()", 0);
+                    }
+                },
+
+                error: function () {
+                    alert("CheckCart failt.!!!");
+                }
+            });
+        }
+
+        var hide = 0;
+        $("#chat p").click(function () {
+            hide++;
+            if (hide % 2 != 0) {
+                $("#chat").css("height", "300px");
+                $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+            } else {
+                $("#chat").css("height", "30px");
+            }
+        });
+
+        $('#message').keypress(function (event) {
+            var x = event.which || event.keyCode;
+            if (x == 13) {
+                var text = $('#message').val();
+                if (text != "") {
+                    $.ajax({
+                        url: "/Home/SendMessage",
+                        dataType: "json",
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "message": text
+                        }),
+                        success: function () {
+                            $("#message").val("");
+                            $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+                        },
+                        error: function () {
+                            alert("Không thể gửi tin.!");
+                        }
+                    });
+                }
+            }
+        });
+
+        setTimeout(checkMessage(), 0);
+
+        function checkMessage() {
+            var amountElement = $(".msg").length;
+
+            $.ajax({
+                url: "/Home/CheckMessage",
+                dataType: "json",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "amountElement": amountElement
+                }),
+                success: function (htmlData) {
+                    if (htmlData != "false") {
+                        $('#messages').append(htmlData);
+                        $('#messages').animate({ scrollTop: $('#messages')[0].scrollHeight });
+                        setTimeout(checkMessage(), 0);
+                    } else {
+                        setTimeout(checkMessage(), 0);
+                    }
+                },
+                error: function () {
+                    alert("Không thể tải tin nhắn mới lên.!");
+                }
+            });
+        }
+
+        //#region Dark Mode
+        function changeMode() {
+            var value = $("#changeMode").val();
+            if (value == "Dark") {
+                $("body").css("background-color", "black");
+                $(".header__top").css("background-color", "#020303");
+                $(".header__top").append('<hr id="header__top_hr" style="background-color:#184A4A;margin-top:5px;" />');
+                $("footer").css("background-color", "rgb(20, 33, 33)");
+                $(".mode_footer_sub").css("background-color", "rgb(20, 33, 100)");
+                $(".mode_set_bg").css("box-shadow", "8px 6px 15px 5px whitesmoke");
+
+                $(".mode_text").css("color", "white");
+                $(".mode_cost").css("color", "red");
+                $(".mode_username").css("color", "yellow");
+                $(".mode_footer_sub").css("color", "white");
+
+                $("#changeMode").val("Light");
+                $("#changeMode").css("background-color", "white");
+                $("#changeMode").css("color", "#272E2E");
+            } else {
+                if (value == "Light") {
+                    $("body").css("background-color", "white");
+                    $(".header__top").css("background-color", "whitesmoke");
+                    $("#header__top_hr").remove();
+                    $("footer").css("background-color", "whitesmoke");
+                    $(".mode_footer_sub").css("background-color", "green");
+                    $(".mode_set_bg").css("box-shadow", "8px 6px 15px 5px black");
+
+                    $(".mode_text").css("color", "black");
+                    $(".mode_cost").css("color", "black");
+                    $(".mode_username").css("color", "black");
+                    $(".mode_footer_sub").css("color", "black");
+
+                    $("#changeMode").val("Dark");
+                    $("#changeMode").css("background-color", "#272E2E");
+                    $("#changeMode").css("color", "white");
+                }
+            }
+        }
+        //#endregion
+
+    </script>
+
+</body>
+</html>
