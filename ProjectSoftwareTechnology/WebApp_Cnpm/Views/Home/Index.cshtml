@@ -67,33 +67,36 @@
                                                         .FirstOrDefault();
                     if (dem < 8)
                     {
-                        string tam = "";
+                        //string tam = "";
                         ProductTypeDTO lsp = (ViewData["productType"] as IEnumerable<ProductTypeDTO>)
                                                                         .Where(m => m.IDLSP == item.IDLSP)
                                                                         .FirstOrDefault();
-                        tam += lsp.Filter + " ";
-                        <div class="col-lg-3 col-md-4 col-sm-6 mix oranges @tam">
-                            <div class="featured__item">
-                                <div class="featured__item__pic set-bg" data-setbg="/img/product/@item.Image">
-                                    <ul class="featured__item__pic__hover">
-                                        <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@item.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="featured__item__text">
-                                    <h6><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP">@item.Name</a></h6>
-                                    @{
-                                        if (sale.IDKM == 1)
-                                        {
-                                            <h5 class="mode_text">@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</h5>
+                        if (lsp != null)
+                        {
+                            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges @lsp.Filter">
+                                <div class="featured__item">
+                                    <div class="featured__item__pic set-bg" data-setbg="/img/product/@item.Image">
+                                        <ul class="featured__item__pic__hover">
+                                            <li><a asp-controller="Home" asp-action="AddtoCart" asp-route-id="@item.IDSP"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="featured__item__text">
+                                        <h6><a class="mode_text" asp-controller="Home" asp-action="Shop_Detail" asp-route-id="@item.IDSP">@item.Name</a></h6>
+                                        @{
+                                            if (sale.IDKM == 1)
+                                            {
+                                                <h5 class="mode_text">@int.Parse(item.Cost).ToString("#,##0").Replace(",", ".") VNĐ</h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</h5>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <h5 class="mode_text">@((int.Parse(item.Cost)-int.Parse(item.Cost)* int.Parse(sale.phantram)*0.01).ToString("#,##0").Replace(",",".")) VNĐ</h5>
-                                        }
-                                    }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+
                     }
                 }
             }

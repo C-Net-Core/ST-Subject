@@ -10494,11 +10494,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\WebApp_Cnpm\\WebApp_Cnpm.csproj",
+      "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\WebApp_Cnpm\\WebApp_Cnpm.csproj",
       "projectName": "WebApp_Cnpm",
-      "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\WebApp_Cnpm\\WebApp_Cnpm.csproj",
+      "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\WebApp_Cnpm\\WebApp_Cnpm.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\WebApp_Cnpm\\obj\\",
+      "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\WebApp_Cnpm\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10515,14 +10515,14 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj": {
-              "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj"
+            "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj": {
+              "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj"
             },
-            "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
+            "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
             },
-            "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj"
+            "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -10612,7 +10612,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

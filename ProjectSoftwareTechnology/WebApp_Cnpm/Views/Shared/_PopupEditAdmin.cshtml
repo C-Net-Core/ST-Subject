@@ -64,10 +64,10 @@
                     <input asp-for="@Model.ChangePasswordKeys.ID" hidden />
                 </div>
                 <div class="popup-themsp-left__input">
-                    <input asp-for="@Model.ChangePasswordKeys.New_Pass" autofocus />
+                    <input asp-for="@Model.ChangePasswordKeys.New_Pass" type="password" autofocus />
                 </div>
                 <div class="popup-themsp-left__input">
-                    <input asp-for="@Model.ChangePasswordKeys.ReNew_Pass" />
+                    <input asp-for="@Model.ChangePasswordKeys.ReNew_Pass" type="password"/>
                 </div>
                 <input class="popup-themsp__btn verifyForm" type="submit" value="Change" onclick="ChangePassword()" />
             </div>

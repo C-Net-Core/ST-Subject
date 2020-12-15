@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj": {}
+    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj": {
+    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\Application.csproj",
+        "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Application\\obj\\",
+        "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
+              "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
               }
             }
           }
@@ -65,18 +65,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
+    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+        "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\obj\\",
+        "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -126,7 +126,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
