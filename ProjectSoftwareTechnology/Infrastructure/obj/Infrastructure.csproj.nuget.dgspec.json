@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {}
+    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
+    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+        "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\obj\\",
+        "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -65,14 +65,14 @@
         }
       }
     },
-    "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Infrastructure\\obj\\",
+        "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -89,8 +89,8 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
+              "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj"
               }
             }
           }

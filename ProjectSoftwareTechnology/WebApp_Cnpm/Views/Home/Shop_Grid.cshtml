@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sidebar__item">
+                    @*<div class="sidebar__item">
                         <h4 class="mode_text">Popular Size</h4>
                         <div class="sidebar__item__size">
                             <label for="37">
@@ -107,7 +107,7 @@
                                 <input type="radio" id="42">
                             </label>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="sidebar__item">
                         <div class="latest-product__text">
                             <h4 class="mode_text">Latest Products</h4>
@@ -424,6 +424,7 @@
 
             if (content != null) {
                 alert("You want to find products with names: " + content);
+                $("#valueSearch").val(content);
                 $("#findWithValueSearch").click();
             }
         };

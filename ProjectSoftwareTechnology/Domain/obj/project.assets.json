@@ -1043,11 +1043,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+      "projectUniqueName": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
+      "projectPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\Github Manager\\ST-Subject\\ProjectSoftwareTechnology\\Domain\\obj\\",
+      "outputPath": "D:\\Documents\\Visual Studio 2019\\ASP.NET Core\\ProjectSoftwareTechnology\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -34,8 +34,8 @@ namespace WebApp_Cnpm
         {
             #region Add DBContext
             services.AddDbContext<WebAppDBContext>(options =>
-                //options.UseSqlServer(Configuration.GetConnectionString("myConnectionString"))
-                options.UseSqlite(Configuration.GetConnectionString("Default"))
+                options.UseSqlServer(Configuration.GetConnectionString("myConnectionString"))
+                //options.UseSqlite(Configuration.GetConnectionString("Default"))
             );
             #endregion
 
@@ -57,11 +57,11 @@ namespace WebApp_Cnpm
             }).AddCookie(options =>
             {
                 options.LoginPath = "/author/google-login"; // Must be lowercase
-                //options.LoginPath = "/author/facebook-login"; // Must be lowercase
+                options.LoginPath = "/author/facebook-login"; // Must be lowercase
             }).AddGoogle(options =>
             {
-                options.ClientId = "649848807632-rqe1l5g066emcjmreqdgbvj7dpur67uq.apps.googleusercontent.com";
-                options.ClientSecret = "MmTWKUljJYMbkRINgSOgNZFx";
+                options.ClientId = "649848807632-9ta0l2tas9uofcgjb5md42ici94n62sn.apps.googleusercontent.com";
+                options.ClientSecret = "O88HYKuG_73WWmjTjuogwr_k";
             }).AddFacebook(options =>
             {
                 options.AppId = "2868902503433039";
